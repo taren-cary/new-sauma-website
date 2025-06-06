@@ -41,16 +41,16 @@ const MobileMenuButton = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   color: #333;
-  padding: 0.5rem;
+  padding: 0;
   z-index: 1001;
   
   @media (max-width: 768px) {
-    display: block;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    min-width: 44px;
+    height: 32px;
+    width: 32px;
+    margin-top: -1.0rem;
   }
 `;
 

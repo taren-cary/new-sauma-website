@@ -52,8 +52,9 @@ const HeroHeading = styled(motion.h1)`
   margin-bottom: 1.5rem;
   
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
     margin-bottom: 1rem;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -76,6 +77,7 @@ const ButtonContainer = styled(motion.div)`
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.75rem;
+    margin-bottom: -1rem;
   }
 `;
 

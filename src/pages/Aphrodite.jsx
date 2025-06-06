@@ -303,7 +303,7 @@ const ComingSoonBadge = styled(motion.div)`
   
   @media (max-width: 768px) {
     top: -8px;
-    right: 39px;
+    right: 36px;
     font-size: 0.7rem;
     padding: 4px 10px;
   }
