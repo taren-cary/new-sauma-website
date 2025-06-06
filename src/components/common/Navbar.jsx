@@ -167,7 +167,7 @@ const Navbar = () => {
       }}>
         <NavContent>
           <Link to="/">
-            <Logo src="/assets/sauma_logo.svg" alt="Sauma Logo" />
+            <Logo src="/assets/sauma_logo.png" alt="Sauma Logo" />
           </Link>
           
           <MobileMenuButton 

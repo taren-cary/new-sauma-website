@@ -123,7 +123,7 @@ const Footer = () => {
       <FooterContent>
         <FooterAbout>
           <Link to="/">
-            <FooterLogo src="/assets/sauma_logo.svg" alt="Sauma Logo" />
+            <FooterLogo src="/assets/sauma_logo.png" alt="Sauma Logo" />
           </Link>
           <FooterDescription>
             Sauma AI provides intelligent AI workers to transform your business operations and drive growth.

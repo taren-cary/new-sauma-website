@@ -38,7 +38,7 @@ const AboutUsPage = () => {
           buttonText="Get In Touch"
           buttonLink="/contact"
           showLogo={true}
-          logoSrc="/assets/sauma_logo.svg"
+          logoSrc="/assets/sauma_logo.png"
           logoSize="120px"
         />
       </main>
