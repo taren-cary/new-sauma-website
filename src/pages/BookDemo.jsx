@@ -280,7 +280,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            20 Minutes That Can Change Your Business Forever
+            15 Minutes That Can Change Your Business Forever
           </HeroHeading>
           
           <HeroSubheading
@@ -336,7 +336,7 @@ const DemoInfoSection = () => {
             <IconWrapper>
               <Clock size={28} />
             </IconWrapper>
-            <CardTitle>Just 20 Minutes</CardTitle>
+            <CardTitle>Just 15 Minutes</CardTitle>
             <CardDescription>
               Our demos are concise and focused on your specific needs, respecting your valuable time.
             </CardDescription>
