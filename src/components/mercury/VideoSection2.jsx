@@ -107,7 +107,7 @@ const VideoSection2 = () => {
           <VideoContainer>
             <video 
               controls
-              poster="/assets/video-thumbnail.jpg"
+              poster="/assets/video-thumbnail2.jpg"
             >
               <source src="/assets/PeakPlumbingDemo.mp4" type="video/mp4" />
               Your browser does not support the video tag.
