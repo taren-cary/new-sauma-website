@@ -31,6 +31,7 @@ const Logo = styled.img`
   
   @media (max-width: 768px) {
     height: 32px;
+    margin-top: 0.1rem;
   }
 `;
 
