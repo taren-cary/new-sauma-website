@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Button from './Button';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const CTAContainer = styled.section`
   padding: 5rem 0;
@@ -126,6 +127,9 @@ const CTASection = ({
   showLimitedBadge = false,
   logoSize = null
 }) => {
+  // Check if it's an internal link (starts with /) or external
+  const isInternalLink = buttonLink.startsWith('/') && !buttonLink.includes('://');
+  
   return (
     <CTAContainer>
       <BackgroundSVG>
@@ -149,7 +153,11 @@ const CTASection = ({
         )}
         <CTAHeading>{heading}</CTAHeading>
         <CTAText>{text}</CTAText>
-        <Button as="a" href={buttonLink} fullWidthMobile>{buttonText}</Button>
+        {isInternalLink ? (
+          <Button as={Link} to={buttonLink} fullWidthMobile>{buttonText}</Button>
+        ) : (
+          <Button as="a" href={buttonLink} fullWidthMobile>{buttonText}</Button>
+        )}
         <TrialText>7-day risk free trial. No credit card required.</TrialText>
       </CTAContent>
     </CTAContainer>

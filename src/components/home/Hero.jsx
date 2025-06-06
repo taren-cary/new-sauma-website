@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 
 // Create a styled component for the SVG background
@@ -107,8 +108,8 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button as="a" href="/mercury">Explore AI Workers</Button>
-          <Button as="a" href="/book-demo">Book a Demo</Button>
+          <Button as={Link} to="/mercury">Explore AI Workers</Button>
+          <Button as={Link} to="/book-demo">Book a Demo</Button>
         </ButtonContainer>
       </HeroContent>
     </HeroContainer>

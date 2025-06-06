@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 
 const SectionContainer = styled.section`
@@ -122,7 +123,7 @@ const AgencySection = () => {
             <Description>
             Let our AI receptionist handle your front desk 24/7 — so you never miss a client, stress about scheduling, or lose money to voicemail again.
             </Description>
-            <Button as="a" href="/mercury" fullWidthMobile>Meet Mercury</Button>
+            <Button as={Link} to="/mercury" fullWidthMobile>Meet Mercury</Button>
           </GlassPanel>
         </motion.div>
       </ContentContainer>

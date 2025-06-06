@@ -41,13 +41,22 @@ const Button = ({
   variant = 'primary', 
   size = 'medium',
   fullWidthMobile = false,
+  as,
+  to,
+  href,
   ...props 
 }) => {
+  // If it's a React Router link, use 'to' prop
+  // If it's an external link, use 'href' prop
+  const linkProps = to ? { to } : href ? { href } : {};
+  
   return (
     <StyledButton 
+      as={as}
       variant={variant} 
       size={size}
       fullWidthMobile={fullWidthMobile}
+      {...linkProps}
       {...props}
     >
       {children}

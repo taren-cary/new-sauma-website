@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 
 const SectionContainer = styled.section`
@@ -199,11 +200,11 @@ const CaseStudySection = () => {
           </ResultsGrid>
           
           <Quote>
-          "We haven’t missed a single call since bringing in Mercury. Clients get the same warm, high-touch experience — but now, our team is free to focus 100% on care. It’s like having a flawless front desk that never clocks out."
+          "We haven't missed a single call since bringing in Mercury. Clients get the same warm, high-touch experience — but now, our team is free to focus 100% on care. It's like having a flawless front desk that never clocks out."
           </Quote>
           
           <ButtonContainer>
-            <Button as="a" href="/book-demo">See How Mercury Can Help You</Button>
+            <Button as={Link} to="/book-demo">See How Mercury Can Help You</Button>
           </ButtonContainer>
         </CaseStudyCard>
       </Container>

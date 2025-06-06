@@ -7,6 +7,7 @@ import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import CTASection from '../components/common/CTASection';
 import Button from '../components/common/Button';
+import { Link } from 'react-router-dom';
 
 const FAQPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -194,7 +195,7 @@ const FAQListSection = ({ faqs }) => {
           ) : (
             <NoResults>
               <p>No matching questions found. Try adjusting your search or category.</p>
-              <Button as="a" href="/contact">Contact Us For Help</Button>
+              <Button as={Link} to="/contact">Contact Us For Help</Button>
             </NoResults>
           )}
         </FAQList>

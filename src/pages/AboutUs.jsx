@@ -7,6 +7,7 @@ import TestimonialSlider from '../components/common/TestimonialSlider';
 import CTASection from '../components/common/CTASection';
 import Button from '../components/common/Button';
 import TrustSection from '../components/home/TrustSection';
+import { Link } from 'react-router-dom';
 
 const AboutUsPage = () => {
   return (
@@ -78,8 +79,8 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button as="a" href="/mercury">Explore AI Workers</Button>
-          <Button as="a" href="/book-demo">Book a Demo</Button>
+          <Button as={Link} to="/mercury">Explore AI Workers</Button>
+          <Button as={Link} to="/book-demo">Book a Demo</Button>
         </ButtonContainer>
       </HeroContent>
     </HeroContainer>

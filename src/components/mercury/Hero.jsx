@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 import { Phone } from 'react-feather';
 
@@ -194,7 +195,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <ButtonContainer>
-            <Button as="a" href="/book-demo">Stop Missing Calls</Button>
+            <Button as={Link} to="/book-demo">Stop Missing Calls</Button>
             <Button as="a" href="tel:+1-575-651-2233">Talk To Mercury <PhoneIcon /></Button>
           </ButtonContainer>
           <TrialText>7-day risk free trial. No credit card required.</TrialText>

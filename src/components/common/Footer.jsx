@@ -134,7 +134,7 @@ const Footer = () => {
           <FooterHeading>Products</FooterHeading>
           <FooterLinks>
             <FooterLink><Link to="/mercury">Mercury</Link></FooterLink>
-            <FooterLink><a href="/aphrodite">Aphrodite-Coming Soon</a></FooterLink>
+            <FooterLink><Link to="/aphrodite">Aphrodite-Coming Soon</Link></FooterLink>
           </FooterLinks>
         </FooterColumn>
         

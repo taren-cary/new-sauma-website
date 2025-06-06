@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { DollarSign, PhoneMissed, PhoneCall, Clock } from 'react-feather';
 import Button from '../common/Button';
 
@@ -371,7 +372,7 @@ const CostCalculator = () => {
           </CalculatorGrid>
           
           <ButtonContainer>
-            <Button as="a" href="/book-demo">Stop Losing Revenue Today</Button>
+            <Button as={Link} to="/book-demo">Stop Losing Revenue Today</Button>
           </ButtonContainer>
         </CalculatorCard>
         
