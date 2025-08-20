@@ -180,21 +180,21 @@ const NextArrow = styled(SliderArrow)`
 const TestimonialSlider = ({ testimonials = [
   {
     text: "Mercury has completely transformed our dispatch process. We're booking 30% more jobs while we sleep with the same ad spend!",
-    author: "Brittany Spencer",
+    author: "Pearson Smith",
     title: "Marketing Director, ForgeCommand.",
-    image: "https://randomuser.me/api/portraits/women/1.jpg"
+    image: "/assets/testimonials/person1.svg"
   },
   {
     text: "With Mercury, our clients can't even tell they're talking to an AI. Our jobs are booked 24/7 and my team is freed up to focus on high-value tasks and providing great service.",
-    author: "Michael Chen",
-    title: "CEO, Aqua Pure Pool Cleaning",
-    image: "https://randomuser.me/api/portraits/men/2.jpg"
+    author: "Micah Mentis",
+    title: "Director of Operations, Nu Pathway Health & Wellness",
+    image: "/assets/testimonials/person2.svg"
   },
   {
-    text: "We've cut our lead response time from hours to seconds. Mercury engages with leads 24/7 and has increased our conversion rate by 45%. It's actually pretty creepy how well it works.",
-    author: "Jessica Williams",
-    title: "Real Estate Agent, Dynasty Real Estate",
-    image: "https://randomuser.me/api/portraits/women/3.jpg"
+    text: "Our outbound lead outreach is now completely automated with Mercury. It's actually pretty creepy how well it works.",
+    author: "Jaivin Karnani",
+    title: "VP, Club Exec Auto",
+    image: "/assets/testimonials/person3.svg"
   }
 ] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
