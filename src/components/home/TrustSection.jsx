@@ -84,7 +84,7 @@ const TrustSection = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <StatValue>$45K</StatValue>
+          <StatValue>$15K</StatValue>
           <StatLabel>Made From Booked Appointments</StatLabel>
         </StatItem>
         
