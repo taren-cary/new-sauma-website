@@ -7,6 +7,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 import Home from './pages/Home';
 import Mercury from './pages/Mercury';
 import BookDemo from './pages/BookDemo';
+import IntakeForm from './pages/IntakeForm';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import Careers from './pages/Careers';
@@ -61,6 +62,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/mercury" element={<Mercury />} />
           <Route path="/book-demo" element={<BookDemo />} />
+          <Route path="/intake-form" element={<IntakeForm />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
