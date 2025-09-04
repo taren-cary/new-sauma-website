@@ -1,12 +1,15 @@
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Users, CheckCircle } from 'react-feather';
+import { Calendar, Clock, Users, CheckCircle, Globe, Zap } from 'react-feather';
+import { useState } from 'react';
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
-import TypeformEmbed from '../components/common/TypeformEmbed';
 import TestimonialSlider from '../components/common/TestimonialSlider';
 import Button from '../components/common/Button';
+import { supabase } from '../services/supabase';
 
 // Styled Components
 const HeroContainer = styled.section`
@@ -110,11 +113,13 @@ const BenefitItem = styled.li`
 
 const FormGlassCard = styled.div`
   ${props => props.theme.glassmorphism};
-  padding: 0;
+  padding: 2rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   border-radius: 15px;
-  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
   
   @media (max-width: 992px) {
     max-width: 100%;
@@ -123,24 +128,119 @@ const FormGlassCard = styled.div`
 
 const FormTitle = styled.h3`
   text-align: center;
-  padding: 1.5rem;
-  margin: 0;
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-const TypeformContainer = styled.div`
-  height: 550px;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const Label = styled.label`
+  font-weight: 500;
+  font-size: 0.9rem;
+`;
+
+const Input = styled.input`
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
   
-  /* These styles ensure the Typeform fits properly */
-  & > div,
-  & > div > div {
-    height: 100% !important;
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
   }
   
-  iframe {
+  &:focus {
+    outline: none;
+    border-color: ${props => props.theme.colors.primary};
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  width: 100%;
+  margin-top: auto;
+`;
+
+const SuccessMessage = styled.div`
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+const ErrorMessage = styled.div`
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+const CalendarButton = styled.button`
+  background: ${props => props.theme.colors.primary};
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const CalendarTitle = styled.h4`
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+`;
+
+const CalendarDescription = styled.p`
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  line-height: 1.6;
+`;
+
+const CalendarContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CalWrapper = styled.div`
+  flex: 1;
+  min-height: 400px;
+  
+  /* Ensure Cal.com embed fits properly */
+  & > div {
     height: 100% !important;
-    width: 100% !important;
   }
 `;
 
@@ -248,7 +348,7 @@ const BookDemo = () => {
     <>
       <Helmet>
         <title>Book a Demo - Sauma AI</title>
-        <meta name="description" content="Schedule a personalized demo to see how Sauma AI's intelligent workers can transform your business operations and boost your efficiency." />
+        <meta name="description" content="Get your custom AI demo in just 15 minutes. Simply share your website and we'll create a personalized AI agent for your business." />
       </Helmet>
       
       <Navbar />
@@ -267,6 +367,69 @@ const BookDemo = () => {
 
 // Hero Section with split design
 const HeroSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    companyName: '',
+    websiteUrl: ''
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Initialize Cal.com popup functionality
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({"namespace":"free-mercury-demo-30-min"});
+      cal("ui", {
+        "theme":"light",
+        "cssVarsPerTheme":{
+          "light":{
+            "cal-brand":"#f88734"
+          }
+        },
+        "hideEventTypeDetails":false,
+        "layout":"month_view"
+      });
+    })();
+  }, []);
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const { error } = await supabase
+        .from('demo_leads')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          company_name: formData.companyName,
+          website_url: formData.websiteUrl,
+          status: 'pending_booking',
+          created_at: new Date().toISOString()
+        }]);
+
+      if (error) throw error;
+      
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', companyName: '', websiteUrl: '' });
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('There was an error submitting your request. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <HeroContainer>
       <HeroBackground>
@@ -280,7 +443,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            15 Minutes That Can Change Your Business Forever
+            Your Custom AI Demo in Just 15 Minutes
           </HeroHeading>
           
           <HeroSubheading
@@ -288,7 +451,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            See our AI workers in action and discover how they can transform your business operations.
+            Share your website and we'll create a personalized AI agent tailored to your business. See it in action at your chosen time.
           </HeroSubheading>
           
           <BenefitsList
@@ -298,25 +461,105 @@ const HeroSection = () => {
           >
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>See live demonstrations of our AI workers</span>
+              <span>We analyze your website and create a custom AI</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>Get customized solutions for your business</span>
+              <span>Book a time that works for your schedule</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>Learn about implementation and ROI</span>
+              <span>See your AI in action during the demo</span>
             </BenefitItem>
           </BenefitsList>
         </LeftColumn>
         
         <RightColumn>
           <FormGlassCard>
-            <FormTitle>Book Your Demo</FormTitle>
-            <TypeformContainer>
-              <TypeformEmbed formId="01JHNFS3R736X86KR323F3FZ5Z" height="100%" />
-            </TypeformContainer>
+            {!isSubmitted ? (
+              <>
+                <FormTitle>Apply for Demo</FormTitle>
+                <Form onSubmit={handleSubmit}>
+                  <FormGroup>
+                    <Label htmlFor="name">Full Name *</Label>
+                    <Input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </FormGroup>
+                  
+                  <FormGroup>
+                    <Label htmlFor="email">Email Address *</Label>
+                    <Input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </FormGroup>
+                  
+                  <FormGroup>
+                    <Label htmlFor="companyName">Company Name *</Label>
+                    <Input
+                      type="text"
+                      id="companyName"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleInputChange}
+                      placeholder="Enter your company name"
+                      required
+                    />
+                  </FormGroup>
+                  
+                  <FormGroup>
+                    <Label htmlFor="websiteUrl">Website URL *</Label>
+                    <Input
+                      type="url"
+                      id="websiteUrl"
+                      name="websiteUrl"
+                      value={formData.websiteUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://yourcompany.com"
+                      required
+                    />
+                  </FormGroup>
+                  
+                  <SubmitButton type="submit" disabled={isLoading}>
+                    {isLoading ? 'Submitting...' : 'Apply for Demo'}
+                  </SubmitButton>
+                  
+                  {error && <ErrorMessage>{error}</ErrorMessage>}
+                </Form>
+              </>
+            ) : (
+              <>
+                <SuccessMessage>
+                  <h4>Perfect! 🎉</h4>
+                  <p>We've received your information and will create your custom AI. Now book your demo time:</p>
+                </SuccessMessage>
+                
+                <CalendarTitle>Ready to Book Your Demo?</CalendarTitle>
+                <CalendarDescription>
+                  Click the button below to open our calendar and choose a time that works for you.
+                </CalendarDescription>
+                
+                <CalendarButton
+                  data-cal-namespace="free-mercury-demo-30-min"
+                  data-cal-link="sauma-ai/free-mercury-demo-30-min"
+                  data-cal-config='{"layout":"month_view","theme":"light"}'
+                >
+                  📅 Book Your Demo Time
+                </CalendarButton>
+              </>
+            )}
           </FormGlassCard>
         </RightColumn>
       </HeroContent>
@@ -329,26 +572,26 @@ const DemoInfoSection = () => {
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>What to Expect in Your Demo</SectionHeading>
+        <SectionHeading>How Your Custom AI Demo Works</SectionHeading>
         
         <InfoCardsGrid>
           <InfoGlassCard>
             <IconWrapper>
-              <Clock size={28} />
+              <Globe size={28} />
             </IconWrapper>
-            <CardTitle>Just 15 Minutes</CardTitle>
+            <CardTitle>1. Share Your Website</CardTitle>
             <CardDescription>
-              Our demos are concise and focused on your specific needs, respecting your valuable time.
+              Simply provide your website URL and we'll analyze your business to understand your needs.
             </CardDescription>
           </InfoGlassCard>
           
           <InfoGlassCard>
             <IconWrapper>
-              <Users size={28} />
+              <Zap size={28} />
             </IconWrapper>
-            <CardTitle>Perfect For</CardTitle>
+            <CardTitle>2. We Build Your AI</CardTitle>
             <CardDescription>
-              Business owners, operations managers, and decision-makers looking to optimize their workflow.
+              Our team creates a personalized AI agent specifically designed for your business operations.
             </CardDescription>
           </InfoGlassCard>
           
@@ -356,9 +599,9 @@ const DemoInfoSection = () => {
             <IconWrapper>
               <Calendar size={28} />
             </IconWrapper>
-            <CardTitle>What You'll See</CardTitle>
+            <CardTitle>3. Book & Demo</CardTitle>
             <CardDescription>
-              Live demonstrations of our AI workers handling real-world scenarios tailored to your industry.
+              Choose a time that works for you and see your custom AI in action during the demo.
             </CardDescription>
           </InfoGlassCard>
         </InfoCardsGrid>
@@ -372,7 +615,7 @@ const TestimonialSection = () => {
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>What Our Clients Say About Their Demo Experience</SectionHeading>
+        <SectionHeading>What Our Clients Say About Their Custom AI Demo</SectionHeading>
         <TestimonialSlider />
       </Container>
     </SectionContainer>
@@ -384,25 +627,30 @@ const FAQSection = () => {
   const demoFaqs = [
     {
       id: 1,
-      question: "How long is the demo?",
-      answer: "Our demos typically last about 20 minutes, but we're happy to extend the time if you have additional questions."
+      question: "How long does it take to create my custom AI?",
+      answer: "We typically create your custom AI within 24-48 hours after receiving your website information. This ensures we have enough time to analyze your business and build something truly personalized."
     },
     {
       id: 2,
-      question: "Do I need to prepare anything?",
-      answer: "No preparation is needed! Just come with your questions and we'll guide you through everything."
+      question: "What information do you need from my website?",
+      answer: "We analyze your website content, services, target audience, and business processes to understand how an AI agent can best serve your specific needs. No additional information needed!"
     },
     {
       id: 3,
-      question: "Can I invite my team members?",
-      answer: "Absolutely! We encourage you to invite team members who would be working with our AI workers."
+      question: "Can I reschedule my demo if needed?",
+      answer: "Absolutely! You can reschedule your demo up to 2 hours before the scheduled time using the calendar link we provide."
+    },
+    {
+      id: 4,
+      question: "What happens after the demo?",
+      answer: "After your demo, we'll provide you with a detailed proposal including pricing, implementation timeline, and next steps to get your AI agent up and running."
     }
   ];
   
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>Common Questions About Our Demos</SectionHeading>
+        <SectionHeading>Common Questions About Our Custom AI Demos</SectionHeading>
         <FAQContainer>
           {demoFaqs.map(faq => (
             <FAQItem key={faq.id}>
