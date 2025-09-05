@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Users, CheckCircle, Globe, Zap } from 'react-feather';
+import { Calendar, Clock, Users, CheckCircle, Globe, Zap, Phone } from 'react-feather';
 import { useState } from 'react';
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
@@ -9,6 +9,8 @@ import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import TestimonialSlider from '../components/common/TestimonialSlider';
 import Button from '../components/common/Button';
+import LogoScroller from '../components/common/LogoScroller';
+import VideoSection from '../components/mercury/VideoSection'; // Add this import
 import { supabase } from '../services/supabase';
 
 // Styled Components
@@ -355,7 +357,12 @@ const BookDemo = () => {
       
       <main>
         <HeroSection />
+        <LogoSection>
+          <LogoHeading>Businesses That Trust Sauma AI</LogoHeading>
+          <LogoScroller />
+        </LogoSection>
         <DemoInfoSection />
+        <VideoSection />
         <TestimonialSection />
         <FAQSection />
       </main>
@@ -365,17 +372,67 @@ const BookDemo = () => {
   );
 };
 
+// Add new styled components for the button container and phone icon
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-top: 2rem;
+  
+  @media (max-width: 992px) {
+    justify-content: center;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+const PhoneIcon = styled(Phone)`
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  vertical-align: middle;
+`;
+
+// Add new styled components for the logo scroller section
+const LogoSection = styled.section`
+  padding: 3rem 0;
+  background-color: rgba(245, 245, 247, 0.5);
+  
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+  }
+`;
+
+const LogoHeading = styled.h2`
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+`;
+
 // Hero Section with split design
 const HeroSection = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     companyName: '',
     websiteUrl: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [submittedData, setSubmittedData] = useState(null);
+  const [demoScheduled, setDemoScheduled] = useState(false); // Add this state
 
   // Initialize Cal.com popup functionality
   useEffect(() => {
@@ -394,11 +451,76 @@ const HeroSection = () => {
     })();
   }, []);
 
+  // Listen for status changes in Supabase using polling
+  useEffect(() => {
+    if (submittedData?.email && !demoScheduled) {
+      console.log('Starting polling for email:', submittedData.email);
+      
+      const pollForStatus = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('demo_leads')
+            .select('status')
+            .eq('email', submittedData.email)
+            .single();
+            
+          console.log('Polling result:', data);
+          
+          if (data && data.status === 'demo_scheduled') {
+            console.log('Demo scheduled found via polling!');
+            setDemoScheduled(true);
+          }
+        } catch (err) {
+          console.log('Polling error:', err);
+        }
+      };
+
+      // Poll every 3 seconds
+      const interval = setInterval(pollForStatus, 3000);
+      
+      // Also poll immediately
+      pollForStatus();
+
+      return () => {
+        console.log('Cleaning up polling');
+        clearInterval(interval);
+      };
+    }
+  }, [submittedData?.email, demoScheduled]);
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const formatPhoneNumber = (phone) => {
+    // Remove all non-digit characters
+    const cleaned = phone.replace(/\D/g, '');
+    
+    // If it starts with 1 and is 11 digits, it's already in US format
+    if (cleaned.length === 11 && cleaned.startsWith('1')) {
+      return `+${cleaned}`;
+    }
+    
+    // If it's 10 digits, assume it's a US number and add +1
+    if (cleaned.length === 10) {
+      return `+1${cleaned}`;
+    }
+    
+    // If it already starts with +, return as is
+    if (phone.startsWith('+')) {
+      return phone;
+    }
+    
+    // For other cases, try to add +1 if it looks like a US number
+    if (cleaned.length >= 10) {
+      return `+1${cleaned}`;
+    }
+    
+    // Fallback: return the original phone number
+    return phone;
   };
 
   const handleSubmit = async (e) => {
@@ -412,6 +534,7 @@ const HeroSection = () => {
         .insert([{
           name: formData.name,
           email: formData.email,
+          lead_phone: formData.phone,  // Changed from phone to lead_phone
           company_name: formData.companyName,
           website_url: formData.websiteUrl,
           status: 'pending_booking',
@@ -420,8 +543,14 @@ const HeroSection = () => {
 
       if (error) throw error;
       
+      // Store the submitted data for Cal.com prefilling
+      setSubmittedData({
+        name: formData.name,
+        email: formData.email
+      });
+      
       setIsSubmitted(true);
-      setFormData({ name: '', email: '', companyName: '', websiteUrl: '' });
+      setFormData({ name: '', email: '', phone: '', companyName: '', websiteUrl: '' });
     } catch (err) {
       console.error('Error submitting form:', err);
       setError('There was an error submitting your request. Please try again.');
@@ -472,6 +601,16 @@ const HeroSection = () => {
               <span>See your AI in action during the demo</span>
             </BenefitItem>
           </BenefitsList>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <ButtonContainer>
+              <Button as="a" href="tel:+1-575-651-2233">Talk To Mercury <PhoneIcon /></Button>
+            </ButtonContainer>
+          </motion.div>
         </LeftColumn>
         
         <RightColumn>
@@ -502,6 +641,19 @@ const HeroSection = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="Enter your email address"
+                      required
+                    />
+                  </FormGroup>
+                  
+                  <FormGroup>
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="(555) 123-4567"
                       required
                     />
                   </FormGroup>
@@ -539,12 +691,24 @@ const HeroSection = () => {
                   {error && <ErrorMessage>{error}</ErrorMessage>}
                 </Form>
               </>
+            ) : demoScheduled ? (
+              <>
+                <PlainSuccessMessage>
+                  <h4>Demo Scheduled Successfully! 🎉</h4>
+                  <p>Thank you for booking your demo! We'll call you at your scheduled time to show you your custom AI in action.</p>
+                </PlainSuccessMessage>
+                
+                <CalendarTitle>What's Next?</CalendarTitle>
+                <CalendarDescription>
+                  We'll analyze your website and create your custom AI before your demo. You'll receive a confirmation email with all the details.
+                </CalendarDescription>
+              </>
             ) : (
               <>
-                <SuccessMessage>
+                <PlainSuccessMessage>
                   <h4>Perfect! 🎉</h4>
                   <p>We've received your information and will create your custom AI. Now book your demo time:</p>
-                </SuccessMessage>
+                </PlainSuccessMessage>
                 
                 <CalendarTitle>Ready to Book Your Demo?</CalendarTitle>
                 <CalendarDescription>
@@ -554,7 +718,7 @@ const HeroSection = () => {
                 <CalendarButton
                   data-cal-namespace="free-mercury-demo-30-min"
                   data-cal-link="sauma-ai/free-mercury-demo-30-min"
-                  data-cal-config='{"layout":"month_view","theme":"light"}'
+                  data-cal-config={`{"layout":"month_view","theme":"light","name":"${submittedData?.name || ''}","email":"${submittedData?.email || ''}"}`}
                 >
                   📅 Book Your Demo Time
                 </CalendarButton>
