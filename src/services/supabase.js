@@ -73,3 +73,52 @@ export const uploadLeadsFile = async (file) => {
     throw error;
   }
 };
+
+export const saveIntakeSubmission = async (formData, tokens) => {
+  try {
+    const submissionPayload = {
+      full_name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      company_name: formData.companyName,
+      website_url: formData.websiteUrl,
+      call_transfer_number: formData.callTransferNumber,
+      agent_id: null,
+      access_token: tokens?.access_token || null,
+      refresh_token: tokens?.refresh_token || null,
+      token_expires_at: tokens?.expires_at ? new Date(tokens.expires_at).toISOString() : null
+    };
+
+    const { data: submissionRow, error: submissionErr } = await supabase
+      .from('intake_submissions')
+      .insert([submissionPayload])
+      .select('id')
+      .single();
+
+    if (submissionErr) throw submissionErr;
+
+    const submissionId = submissionRow.id;
+
+    const services = (formData.services || [])
+      .filter(s => s.name && s.price && s.description && s.durationMinutes)
+      .map(s => ({
+        submission_id: submissionId,
+        name: s.name,
+        price: parseFloat(s.price),
+        description: s.description,
+        duration_minutes: parseInt(s.durationMinutes, 10)
+      }));
+
+    if (services.length) {
+      const { error: servicesErr } = await supabase
+        .from('intake_services')
+        .insert(services);
+      if (servicesErr) throw servicesErr;
+    }
+
+    return { success: true, submissionId };
+  } catch (error) {
+    console.error('Error saving intake submission:', error);
+    throw error;
+  }
+};
