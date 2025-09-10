@@ -192,9 +192,30 @@ const IntakeForm = () => {
 
   // Handle Google OAuth callback
   useEffect(() => {
+    // Listen for messages from OAuth popup
+    const handleMessage = (event) => {
+      // Verify the message is from our domain
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data.success) {
+        // Handle successful OAuth
+        handleGoogleCallback(event.data.code);
+      } else {
+        // Handle OAuth error
+        setAlert({ type: 'error', message: event.data.error || 'Failed to connect Google Calendar.' });
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    // Also handle direct URL callback (fallback for non-popup scenarios)
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) handleGoogleCallback(code);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   const handleGoogleCallback = async (code) => {

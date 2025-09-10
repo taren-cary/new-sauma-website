@@ -58,19 +58,32 @@ const OAuthCallback = () => {
     const error = urlParams.get('error');
 
     if (error) {
-      // Handle OAuth error
-      const errorMessage = urlParams.get('error_description') || 'OAuth authorization failed';
-      // Redirect back to intake form with error
-      window.location.href = '/intake-form?error=' + encodeURIComponent(errorMessage);
-      return;
-    }
-
-    if (code) {
-      // Redirect back to intake form with success code
-      window.location.href = '/intake-form?code=' + code;
+      // Send error message to parent window and close popup
+      if (window.opener) {
+        window.opener.postMessage({ 
+          success: false, 
+          error: urlParams.get('error_description') || 'OAuth authorization failed' 
+        }, window.location.origin);
+        window.close();
+      }
+    } else if (code) {
+      // Send success message to parent window and close popup
+      if (window.opener) {
+        window.opener.postMessage({ 
+          success: true, 
+          code: code 
+        }, window.location.origin);
+        window.close();
+      }
     } else {
-      // No code received
-      window.location.href = '/intake-form?error=' + encodeURIComponent('No authorization code received');
+      // No code or error - something went wrong
+      if (window.opener) {
+        window.opener.postMessage({ 
+          success: false, 
+          error: 'No authorization code received' 
+        }, window.location.origin);
+        window.close();
+      }
     }
   }, []);
 
@@ -91,8 +104,8 @@ const OAuthCallback = () => {
         borderRadius: '20px',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
       }}>
-        <h2 style={{ color: '#6C63FF', marginBottom: '1rem' }}>Processing Authorization...</h2>
-        <p style={{ color: '#666' }}>Please wait while we complete your Google Calendar connection.</p>
+        <h2 style={{ color: '#6C63FF', marginBottom: '1rem' }}>Completing Connection...</h2>
+        <p style={{ color: '#666' }}>Please wait while we finish connecting your Google Calendar.</p>
       </div>
     </div>
   );
