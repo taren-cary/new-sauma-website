@@ -185,6 +185,25 @@ const SuccessMessage = styled.div`
   margin-bottom: 1rem;
 `;
 
+const PlainSuccessMessage = styled.div`
+  color: #22c55e;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  
+  h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+`;
+
 const ErrorMessage = styled.div`
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid rgba(239, 68, 68, 0.3);
