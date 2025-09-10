@@ -14,6 +14,7 @@ import Careers from './pages/Careers';
 import FAQ from './pages/FAQ';
 import Aphrodite from './pages/Aphrodite';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import { useEffect } from 'react';
 
 // 404 Component
 const NotFound = () => (
@@ -48,6 +49,55 @@ const NotFound = () => (
   </div>
 );
 
+// OAuth Callback Component
+const OAuthCallback = () => {
+  useEffect(() => {
+    // Get the authorization code from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const error = urlParams.get('error');
+
+    if (error) {
+      // Handle OAuth error
+      const errorMessage = urlParams.get('error_description') || 'OAuth authorization failed';
+      // Redirect back to intake form with error
+      window.location.href = '/intake-form?error=' + encodeURIComponent(errorMessage);
+      return;
+    }
+
+    if (code) {
+      // Redirect back to intake form with success code
+      window.location.href = '/intake-form?code=' + code;
+    } else {
+      // No code received
+      window.location.href = '/intake-form?error=' + encodeURIComponent('No authorization code received');
+    }
+  }, []);
+
+  return (
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '100vh',
+      textAlign: 'center',
+      padding: '2rem',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    }}>
+      <div style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '20px',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
+      }}>
+        <h2 style={{ color: '#6C63FF', marginBottom: '1rem' }}>Processing Authorization...</h2>
+        <p style={{ color: '#666' }}>Please wait while we complete your Google Calendar connection.</p>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -70,6 +120,7 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aphrodite" element={<Aphrodite />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/auth/google/callback" element={<OAuthCallback />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
