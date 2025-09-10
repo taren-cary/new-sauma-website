@@ -13,6 +13,7 @@ import Contact from './pages/Contact';
 import Careers from './pages/Careers';
 import FAQ from './pages/FAQ';
 import Aphrodite from './pages/Aphrodite';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // 404 Component
 const NotFound = () => (
@@ -68,6 +69,7 @@ function App() {
           <Route path="/careers" element={<Careers />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aphrodite" element={<Aphrodite />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
