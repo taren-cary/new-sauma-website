@@ -116,6 +116,32 @@ export const saveIntakeSubmission = async (formData, tokens) => {
       if (servicesErr) throw servicesErr;
     }
 
+    // Invoke Supabase Edge Function to initialize LLM/agent
+    try {
+      const fnName = import.meta.env.VITE_SUPABASE_INIT_LLM_FUNCTION;
+      const fnUrl = import.meta.env.VITE_SUPABASE_INIT_LLM_URL;
+
+      if (fnName) {
+        await supabase.functions.invoke(fnName, {
+          body: { submissionId },
+          headers: { 'Content-Type': 'application/json' }
+        });
+      } else if (fnUrl) {
+        await fetch(fnUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ submissionId })
+        });
+      } else {
+        console.warn('No edge function configured. Set VITE_SUPABASE_INIT_LLM_FUNCTION or VITE_SUPABASE_INIT_LLM_URL.');
+      }
+    } catch (invokeErr) {
+      console.error('Edge function invocation failed:', invokeErr);
+    }
+
     return { success: true, submissionId };
   } catch (error) {
     console.error('Error saving intake submission:', error);
