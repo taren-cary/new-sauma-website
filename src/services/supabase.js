@@ -76,6 +76,8 @@ export const uploadLeadsFile = async (file) => {
 
 export const saveIntakeSubmission = async (formData, tokens) => {
   try {
+    console.log('Saving intake submission...', { email: formData.email, company: formData.companyName });
+
     const submissionPayload = {
       full_name: formData.fullName,
       email: formData.email,
@@ -95,10 +97,15 @@ export const saveIntakeSubmission = async (formData, tokens) => {
       .select('id')
       .single();
 
-    if (submissionErr) throw submissionErr;
+    if (submissionErr) {
+      console.error('Error inserting submission:', submissionErr);
+      throw submissionErr;
+    }
 
     const submissionId = submissionRow.id;
+    console.log('Submission created with ID:', submissionId);
 
+    // Insert services if they exist
     const services = (formData.services || [])
       .filter(s => s.name && s.price && s.description && s.durationMinutes)
       .map(s => ({
@@ -109,37 +116,53 @@ export const saveIntakeSubmission = async (formData, tokens) => {
         duration_minutes: parseInt(s.durationMinutes, 10)
       }));
 
-    if (services.length) {
+    if (services.length > 0) {
+      console.log(`Inserting ${services.length} services...`);
       const { error: servicesErr } = await supabase
         .from('intake_services')
         .insert(services);
-      if (servicesErr) throw servicesErr;
+      
+      if (servicesErr) {
+        console.error('Error inserting services:', servicesErr);
+        throw servicesErr;
+      }
+      console.log('Services inserted successfully');
     }
 
-    // Invoke Supabase Edge Function to initialize LLM/agent
+    // Call the edge function to initialize LLM/agent
+    console.log('Calling edge function to initialize LLM...');
+    
     try {
-      const fnName = import.meta.env.VITE_SUPABASE_INIT_LLM_FUNCTION;
       const fnUrl = import.meta.env.VITE_SUPABASE_INIT_LLM_URL;
-
-      if (fnName) {
-        await supabase.functions.invoke(fnName, {
-          body: { submissionId },
-          headers: { 'Content-Type': 'application/json' }
-        });
-      } else if (fnUrl) {
-        await fetch(fnUrl, {
+      
+      if (fnUrl) {
+        console.log('Making request to:', fnUrl);
+        
+        const response = await fetch(fnUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
             'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY
           },
           body: JSON.stringify({ submissionId })
         });
+
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Edge function HTTP error:', response.status, errorText);
+        } else {
+          const result = await response.json();
+          console.log('Edge function response:', result);
+        }
       } else {
-        console.warn('No edge function configured. Set VITE_SUPABASE_INIT_LLM_FUNCTION or VITE_SUPABASE_INIT_LLM_URL.');
+        console.warn('VITE_SUPABASE_INIT_LLM_URL not configured in environment variables');
       }
-    } catch (invokeErr) {
-      console.error('Edge function invocation failed:', invokeErr);
+    } catch (fetchErr) {
+      console.error('Edge function fetch failed:', fetchErr);
+      // Don't throw here - let the submission complete even if LLM setup fails
     }
 
     return { success: true, submissionId };
