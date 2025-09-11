@@ -189,6 +189,8 @@ const IntakeForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alert, setAlert] = useState(null);
   const [googleTokens, setGoogleTokens] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionId, setSubmissionId] = useState(null);
 
   // Handle Google OAuth callback
   useEffect(() => {
@@ -300,6 +302,9 @@ const IntakeForm = () => {
     if (!formData.fullName || !formData.email || !formData.phone || !formData.companyName || !formData.websiteUrl || !formData.callTransferNumber) {
       return 'Please complete all required fields.';
     }
+    if (!formData.googleCalendarConnected) {
+      return 'Please connect your Google Calendar before submitting.';
+    }
     const s0 = formData.services[0];
     if (!s0.name || !s0.price || !s0.description || !s0.durationMinutes) {
       return 'Please provide at least one service with name, price, description, and duration.';
@@ -321,10 +326,8 @@ const IntakeForm = () => {
 
     try {
       const result = await saveIntakeSubmission(formData, googleTokens);
-      setAlert({
-        type: 'success',
-        message: `Your intake has been submitted successfully! Submission ID: ${result.submissionId}. We'll contact you shortly.`
-      });
+      setSubmissionId(result.submissionId);
+      setIsSubmitted(true);
 
       setFormData({
         fullName: '',
@@ -356,169 +359,192 @@ const IntakeForm = () => {
         <Navbar />
 
         <FormContainer>
-          <FormCard
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <FormTitle>Mercury AI Entry Level Receptionist Intake Form</FormTitle>
-            <FormSubtitle>Fill in your contact details, services, and connect your calendar.</FormSubtitle>
-
-            {alert && (
-              <div className={`alert ${alert.type}`} style={{
-                padding: '1rem', borderRadius: 10, margin: '1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem',
-                background: alert.type === 'success' ? '#d4edda' : '#f8d7da',
-                color: alert.type === 'success' ? '#155724' : '#721c24',
-                border: `1px solid ${alert.type === 'success' ? '#c3e6cb' : '#f5c6cb'}`
-              }}>
-                {alert.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
-                {alert.message}
+          {isSubmitted ? (
+            <FormCard
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div style={{ textAlign: 'center', padding: '1rem 0 0' }}>
+                <CheckCircle size={56} color="#22c55e" />
+                <h2 style={{ fontSize: '2rem', margin: '1rem 0 0.5rem', color: '#111' }}>
+                  Thanks! Your intake was submitted.
+                </h2>
+                <p style={{ color: '#666', fontSize: '1.05rem', marginBottom: '1.25rem' }}>
+                  We’ve received your details{submissionId ? ` (Submission ID: ${submissionId})` : ''}. Our team will reach out shortly.
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginTop: '1rem' }}>
+                  <a href="/" style={{ padding: '0.9rem 1.4rem', borderRadius: 50, background: '#6C63FF', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>
+                    Back to home
+                  </a>
+                </div>
               </div>
-            )}
+            </FormCard>
+          ) : (
+            <FormCard
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <FormTitle>Mercury AI Entry Level Receptionist Intake Form</FormTitle>
+              <FormSubtitle>Fill in your contact details, services, and connect your calendar.</FormSubtitle>
 
-            <form onSubmit={handleSubmit}>
-              <Section>
-                <SectionTitle>
-                  <User size={24} />
-                  Basic Information
-                </SectionTitle>
+              {alert && (
+                <div className={`alert ${alert.type}`} style={{
+                  padding: '1rem', borderRadius: 10, margin: '1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  background: alert.type === 'success' ? '#d4edda' : '#f8d7da',
+                  color: alert.type === 'success' ? '#155724' : '#721c24',
+                  border: `1px solid ${alert.type === 'success' ? '#c3e6cb' : '#f5c6cb'}`
+                }}>
+                  {alert.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+                  {alert.message}
+                </div>
+              )}
 
-                <FormGroup>
-                  <Label>Full Name *</Label>
-                  <Input type="text" value={formData.fullName} onChange={(e) => handleChange('fullName', e.target.value)} required />
-                </FormGroup>
+              <form onSubmit={handleSubmit}>
+                <Section>
+                  <SectionTitle>
+                    <User size={24} />
+                    Basic Information
+                  </SectionTitle>
 
-                <FormGroup>
-                  <Label>Email Address *</Label>
-                  <Input type="email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} required />
-                  <Small>Note: Use the same email you used for the demo.</Small>
-                </FormGroup>
+                  <FormGroup>
+                    <Label>Full Name *</Label>
+                    <Input type="text" value={formData.fullName} onChange={(e) => handleChange('fullName', e.target.value)} required />
+                  </FormGroup>
 
-                <FormGroup>
-                  <Label>Phone Number *</Label>
-                  <Input type="tel" value={formData.phone} onChange={(e) => handleChange('phone', e.target.value)} required />
-                </FormGroup>
+                  <FormGroup>
+                    <Label>Email Address *</Label>
+                    <Input type="email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} required />
+                    <Small>Note: Use the same email you used for the demo.</Small>
+                  </FormGroup>
 
-                <FormGroup>
-                  <Label>Company Name *</Label>
-                  <Input type="text" value={formData.companyName} onChange={(e) => handleChange('companyName', e.target.value)} required />
-                </FormGroup>
+                  <FormGroup>
+                    <Label>Phone Number *</Label>
+                    <Input type="tel" value={formData.phone} onChange={(e) => handleChange('phone', e.target.value)} required />
+                  </FormGroup>
 
-                <FormGroup>
-                  <Label>Website URL *</Label>
-                  <Input type="url" value={formData.websiteUrl} onChange={(e) => handleChange('websiteUrl', e.target.value)} required />
-                </FormGroup>
+                  <FormGroup>
+                    <Label>Company Name *</Label>
+                    <Input type="text" value={formData.companyName} onChange={(e) => handleChange('companyName', e.target.value)} required />
+                  </FormGroup>
 
-                <FormGroup>
-                  <Label>Call Transfer Number *</Label>
-                  <Input type="tel" value={formData.callTransferNumber} onChange={(e) => handleChange('callTransferNumber', e.target.value)} required />
-                </FormGroup>
-              </Section>
+                  <FormGroup>
+                    <Label>Website URL *</Label>
+                    <Input type="url" value={formData.websiteUrl} onChange={(e) => handleChange('websiteUrl', e.target.value)} required />
+                  </FormGroup>
 
-              <Section>
-                <SectionTitle>
-                  <Home size={24} />
-                  Top Services
-                </SectionTitle>
-                <Small>Provide at least one service. You can add up to five.</Small>
+                  <FormGroup>
+                    <Label>Call Transfer Number *</Label>
+                    <Input type="tel" value={formData.callTransferNumber} onChange={(e) => handleChange('callTransferNumber', e.target.value)} required />
+                  </FormGroup>
+                </Section>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-                  {formData.services.map((svc, idx) => (
-                    <ServiceRow key={idx}>
-                      <Input
-                        type="text"
-                        placeholder="Service name"
-                        value={svc.name}
-                        onChange={(e) => handleServiceChange(idx, 'name', e.target.value)}
-                        required={idx === 0}
-                      />
-                      <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="Price (e.g., 99.99)"
-                        value={svc.price}
-                        onChange={(e) => handleServiceChange(idx, 'price', e.target.value)}
-                        required={idx === 0}
-                      />
-                      <Input
-                        type="number"
-                        step="1"
-                        placeholder="Duration (minutes)"
-                        value={svc.durationMinutes}
-                        onChange={(e) => handleServiceChange(idx, 'durationMinutes', e.target.value)}
-                        required={idx === 0}
-                      />
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <Clock size={16} />
-                        <Small>mins</Small>
-                      </div>
-                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                        {formData.services.length > 1 && (
-                          <Button type="button" onClick={() => removeService(idx)} variant="secondary">
-                            <Trash2 size={16} /> Remove
-                          </Button>
-                        )}
-                      </div>
-                      <div style={{ gridColumn: '1 / -1' }}>
-                        <TextArea
-                          placeholder="Description"
-                          value={svc.description}
-                          onChange={(e) => handleServiceChange(idx, 'description', e.target.value)}
+                <Section>
+                  <SectionTitle>
+                    <Home size={24} />
+                    Top Services
+                  </SectionTitle>
+                  <Small>Provide at least one service. You can add up to five.</Small>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                    {formData.services.map((svc, idx) => (
+                      <ServiceRow key={idx}>
+                        <Input
+                          type="text"
+                          placeholder="Service name"
+                          value={svc.name}
+                          onChange={(e) => handleServiceChange(idx, 'name', e.target.value)}
                           required={idx === 0}
                         />
-                      </div>
-                    </ServiceRow>
-                  ))}
-                </div>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          placeholder="Price (e.g., 99.99)"
+                          value={svc.price}
+                          onChange={(e) => handleServiceChange(idx, 'price', e.target.value)}
+                          required={idx === 0}
+                        />
+                        <Input
+                          type="number"
+                          step="1"
+                          placeholder="Duration (minutes)"
+                          value={svc.durationMinutes}
+                          onChange={(e) => handleServiceChange(idx, 'durationMinutes', e.target.value)}
+                          required={idx === 0}
+                        />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Clock size={16} />
+                          <Small>mins</Small>
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                          {formData.services.length > 1 && (
+                            <Button type="button" onClick={() => removeService(idx)} variant="secondary">
+                              <Trash2 size={16} /> Remove
+                            </Button>
+                          )}
+                        </div>
+                        <div style={{ gridColumn: '1 / -1' }}>
+                          <TextArea
+                            placeholder="Description"
+                            value={svc.description}
+                            onChange={(e) => handleServiceChange(idx, 'description', e.target.value)}
+                            required={idx === 0}
+                          />
+                        </div>
+                      </ServiceRow>
+                    ))}
+                  </div>
 
-                <div style={{ marginTop: '0.75rem' }}>
-                  <Button type="button" onClick={addService} disabled={formData.services.length >= 5}>
-                    <PlusCircle size={16} /> Add another service
-                  </Button>
-                  {formData.services.length >= 5 && (
-                    <Small style={{ marginLeft: 12 }}>Maximum of 5 services reached.</Small>
-                  )}
-                </div>
-              </Section>
+                  <div style={{ marginTop: '0.75rem' }}>
+                    <Button type="button" onClick={addService} disabled={formData.services.length >= 5}>
+                      <PlusCircle size={16} /> Add another service
+                    </Button>
+                    {formData.services.length >= 5 && (
+                      <Small style={{ marginLeft: 12 }}>Maximum of 5 services reached.</Small>
+                    )}
+                  </div>
+                </Section>
 
-              <Section>
-                <SectionTitle>
-                  <Calendar size={24} />
-                  Calendar Integration
-                </SectionTitle>
-                
-                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ marginBottom: '0.5rem' }}>🗓️ Connect Your Google Calendar</h3>
-                  <p style={{ color: '#666', marginBottom: '1.5rem' }}>
-                    This allows booked appointments to automatically appear in your existing calendar
-                  </p>
+                <Section>
+                  <SectionTitle>
+                    <Calendar size={24} />
+                    Calendar Integration
+                  </SectionTitle>
                   
-                  <GoogleCalendarButton
-                    type="button"
-                    onClick={connectGoogleCalendar}
-                    disabled={formData.googleCalendarConnected}
-                  >
-                    <Calendar size={20} />
-                    {formData.googleCalendarConnected ? 'Calendar Connected ✓' : 'Connect Google Calendar'}
-                  </GoogleCalendarButton>
-                  
-                  {formData.googleCalendarConnected && (
-                    <p style={{ marginTop: '1rem', color: '#4285f4' }}>
-                      ✓ Calendar connected successfully
+                  <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                    <h3 style={{ marginBottom: '0.5rem' }}>🗓️ Connect Your Google Calendar</h3>
+                    <p style={{ color: '#666', marginBottom: '1.5rem' }}>
+                      This allows booked appointments to automatically appear in your existing calendar
                     </p>
-                  )}
-                </div>
-                
-                <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
-                  By connecting your calendar, you ensure no double-bookings and seamless scheduling.
-                </p>
-              </Section>
+                    
+                    <GoogleCalendarButton
+                      type="button"
+                      onClick={connectGoogleCalendar}
+                      disabled={formData.googleCalendarConnected}
+                    >
+                      <Calendar size={20} />
+                      {formData.googleCalendarConnected ? 'Calendar Connected ✓' : 'Connect Google Calendar'}
+                    </GoogleCalendarButton>
+                    
+                    {formData.googleCalendarConnected && (
+                      <p style={{ marginTop: '1rem', color: '#4285f4' }}>
+                        ✓ Calendar connected successfully
+                      </p>
+                    )}
+                  </div>
+                  
+                  <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center' }}>
+                    By connecting your calendar, you ensure no double-bookings and seamless scheduling.
+                  </p>
+                </Section>
 
-              <SubmitButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit Intake Form'}
-              </SubmitButton>
-            </form>
-          </FormCard>
+                <SubmitButton type="submit" disabled={isSubmitting || !formData.googleCalendarConnected}>
+                  {isSubmitting ? 'Submitting...' : 'Submit Intake Form'}
+                </SubmitButton>
+              </form>
+            </FormCard>
+          )}
         </FormContainer>
 
         <Footer />
