@@ -220,15 +220,42 @@ const IntakeForm = () => {
 
   const handleGoogleCallback = async (code) => {
     try {
-      setGoogleTokens({
-        access_token: 'simulated_access_token',
-        refresh_token: 'simulated_refresh_token',
-        expires_at: new Date(Date.now() + 3600000).toISOString()
+      // Exchange authorization code for access token
+      const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+          code: code,
+          grant_type: 'authorization_code',
+          redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
+        }),
       });
+
+      if (!tokenResponse.ok) {
+        throw new Error('Failed to exchange authorization code for tokens');
+      }
+
+      const tokenData = await tokenResponse.json();
+      
+      // Calculate expiration time
+      const expiresAt = new Date(Date.now() + (tokenData.expires_in * 1000)).toISOString();
+      
+      // Set the real tokens
+      setGoogleTokens({
+        access_token: tokenData.access_token,
+        refresh_token: tokenData.refresh_token,
+        expires_at: expiresAt
+      });
+      
       setFormData(prev => ({ ...prev, googleCalendarConnected: true }));
       setAlert({ type: 'success', message: 'Google Calendar connected successfully!' });
-    } catch {
-      setAlert({ type: 'error', message: 'Failed to connect Google Calendar.' });
+    } catch (error) {
+      console.error('Google OAuth error:', error);
+      setAlert({ type: 'error', message: 'Failed to connect Google Calendar. Please try again.' });
     }
   };
 
