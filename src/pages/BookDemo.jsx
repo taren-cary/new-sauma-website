@@ -636,7 +636,7 @@ const HeroSection = () => {
           <FormGlassCard>
             {!isSubmitted ? (
               <>
-                <FormTitle>Apply for Demo</FormTitle>
+                <FormTitle>Book a Demo</FormTitle>
                 <Form onSubmit={handleSubmit}>
                   <FormGroup>
                     <Label htmlFor="name">Full Name *</Label>
@@ -704,7 +704,7 @@ const HeroSection = () => {
                   </FormGroup>
                   
                   <SubmitButton type="submit" disabled={isLoading}>
-                    {isLoading ? 'Submitting...' : 'Apply for Demo'}
+                    {isLoading ? 'Submitting...' : 'Book a Demo'}
                   </SubmitButton>
                   
                   {error && <ErrorMessage>{error}</ErrorMessage>}
