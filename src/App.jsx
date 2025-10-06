@@ -6,6 +6,7 @@ import theme from './styles/theme';
 import ScrollToTop from './components/common/ScrollToTop';
 import Home from './pages/Home';
 import Mercury from './pages/Mercury';
+import MercuryPricing from './pages/MercuryPricing';
 import BookDemo from './pages/BookDemo';
 import IntakeForm from './pages/IntakeForm';
 import AboutUs from './pages/AboutUs';
@@ -125,6 +126,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mercury" element={<Mercury />} />
+          <Route path="/mercury-pricing" element={<MercuryPricing />} />
           <Route path="/book-demo" element={<BookDemo />} />
           <Route path="/intake-form" element={<IntakeForm />} />
           <Route path="/about" element={<AboutUs />} />
