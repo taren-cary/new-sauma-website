@@ -189,12 +189,6 @@ const TestimonialSlider = ({ testimonials = [
     author: "Micah Mentis",
     title: "Director of Operations, Nu Pathway Health & Wellness",
     image: "/assets/testimonials/person2.svg"
-  },
-  {
-    text: "Our outbound lead outreach is now completely automated with Mercury. It's actually pretty creepy how well it works.",
-    author: "Jaivin Karnani",
-    title: "VP, Club Exec Auto",
-    image: "/assets/testimonials/person3.svg"
   }
 ] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
