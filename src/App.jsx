@@ -15,6 +15,7 @@ import Careers from './pages/Careers';
 import FAQ from './pages/FAQ';
 import Aphrodite from './pages/Aphrodite';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import RealEstateIntakeForm from './pages/RealEstateIntakeForm';
 import { useEffect } from 'react';
 
 // 404 Component
@@ -135,6 +136,7 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/aphrodite" element={<Aphrodite />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/real-estate-intake" element={<RealEstateIntakeForm />} />
           <Route path="/auth/google/callback" element={<OAuthCallback />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
