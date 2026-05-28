@@ -18,7 +18,7 @@ const INDUSTRIES = [
     path: '/industries/medspas',
     description:
       'AI that handles consultation bookings, lead nurturing, appointment reminders, and client follow-ups so your staff can stay focused on patient care.',
-    status: 'coming-soon',
+    status: 'live',
   },
   {
     icon: Truck,
@@ -26,7 +26,7 @@ const INDUSTRIES = [
     path: '/industries/mobile-detailing',
     description:
       'Automated lead capture, job booking, route-based scheduling, and follow-up — built specifically for mobile detailing operations.',
-    status: 'coming-soon',
+    status: 'live',
   },
 ];
 

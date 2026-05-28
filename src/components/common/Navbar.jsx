@@ -223,29 +223,26 @@ const NavLink = styled(Link)`
 
 const DropdownContainer = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
 
-  /* hide on mobile — mobile uses its own version */
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
 const DropdownTrigger = styled.button`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
   background: none;
   border: none;
+  padding: 0;
+  margin: 0;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
+  line-height: normal;
   color: #333;
   cursor: pointer;
-  padding: 0;
-  line-height: inherit;
-  vertical-align: baseline;
   transition: color 0.2s;
 
   svg {
