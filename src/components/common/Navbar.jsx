@@ -203,6 +203,8 @@ const NavLink = styled(Link)`
   position: relative;
   transition: color 0.3s ease;
   font-size: 1rem;
+  min-height: unset;
+  min-width: unset;
 
   &:after {
     content: '';
