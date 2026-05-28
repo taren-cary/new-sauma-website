@@ -101,6 +101,7 @@ const Medspas = () => {
         <HeroSection />
         <FeaturesSection />
         <HowItWorksSection />
+        <TestimonialSection />
         <CTASection
           heading="Ready to keep your chairs full?"
           text="Book a demo and we'll walk you through exactly how the system works for your medspa."
@@ -182,6 +183,31 @@ const FeaturesSection = () => (
           );
         })}
       </FeaturesGrid>
+    </Container>
+  </Section>
+);
+
+const TestimonialSection = () => (
+  <Section style={{ background: '#fafafa' }}>
+    <Container>
+      <SectionHeading>What our clients say</SectionHeading>
+      <TestimonialCard
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <QuoteText>
+          "With Mercury, our clients can't even tell they're talking to an AI. Our jobs are booked 24/7 and my team is freed up to focus on high-value tasks and providing great service."
+        </QuoteText>
+        <TestimonialAuthor>
+          <AuthorAvatar src="/assets/testimonials/person2.svg" alt="Micah Mentis" />
+          <AuthorInfo>
+            <AuthorName>Micah Mentis</AuthorName>
+            <AuthorTitle>Director of Operations, Nu Pathway Health &amp; Wellness</AuthorTitle>
+          </AuthorInfo>
+        </TestimonialAuthor>
+      </TestimonialCard>
     </Container>
   </Section>
 );
@@ -405,6 +431,65 @@ const StepBody = styled.p`
   font-size: 0.9rem;
   color: #666;
   line-height: 1.6;
+`;
+
+const TestimonialCard = styled(motion.div)`
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(108, 99, 255, 0.08);
+  position: relative;
+
+  &:before {
+    content: '"';
+    position: absolute;
+    top: 1.25rem;
+    left: 2rem;
+    font-size: 5rem;
+    line-height: 1;
+    color: #6C63FF;
+    opacity: 0.12;
+    font-family: Georgia, serif;
+  }
+`;
+
+const QuoteText = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #333;
+  margin-bottom: 1.75rem;
+  font-style: italic;
+`;
+
+const TestimonialAuthor = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const AuthorAvatar = styled.img`
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+`;
+
+const AuthorInfo = styled.div``;
+
+const AuthorName = styled.div`
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111;
+`;
+
+const AuthorTitle = styled.div`
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 2px;
 `;
 
 export default Medspas;
