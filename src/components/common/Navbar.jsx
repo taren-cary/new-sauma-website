@@ -65,12 +65,15 @@ const Navbar = () => {
           <NavLinks isOpen={isOpen}>
             <NavLink to="/" onClick={closeMenu}>Home</NavLink>
 
-            {/* Desktop dropdown — trigger is a direct flex child, no wrapper div */}
+            {/* Desktop dropdown — div has zero browser defaults, aligns like NavLink */}
             <DropdownTrigger
               ref={dropdownRef}
+              role="button"
+              tabIndex={0}
               isOpen={industriesOpen}
               onMouseEnter={() => setIndustriesOpen(true)}
               onMouseLeave={() => setIndustriesOpen(false)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIndustriesOpen(v => !v); }}
             >
               Industries <ChevronDown size={14} />
               <DropdownMenu isOpen={industriesOpen}>
@@ -220,25 +223,16 @@ const NavLink = styled(Link)`
 
 // ── Desktop Dropdown ──────────────────────────────────────────────────────────
 
-const DropdownTrigger = styled.button`
-  /* Sit in the flex row exactly like the NavLink <a> tags */
+const DropdownTrigger = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0;
-  margin: 0;
-  font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
-  line-height: 1;
   color: #333;
   cursor: pointer;
+  user-select: none;
   transition: color 0.2s;
 
   svg {
