@@ -65,15 +65,14 @@ const Navbar = () => {
           <NavLinks isOpen={isOpen}>
             <NavLink to="/" onClick={closeMenu}>Home</NavLink>
 
-            {/* Desktop dropdown */}
-            <DropdownContainer
+            {/* Desktop dropdown — trigger is a direct flex child, no wrapper div */}
+            <DropdownTrigger
               ref={dropdownRef}
+              isOpen={industriesOpen}
               onMouseEnter={() => setIndustriesOpen(true)}
               onMouseLeave={() => setIndustriesOpen(false)}
             >
-              <DropdownTrigger isOpen={industriesOpen}>
-                Industries <ChevronDown size={14} />
-              </DropdownTrigger>
+              Industries <ChevronDown size={14} />
               <DropdownMenu isOpen={industriesOpen}>
                 {INDUSTRIES.map((ind) => (
                   <DropdownItem key={ind.path} to={ind.path} onClick={() => setIndustriesOpen(false)}>
@@ -81,7 +80,7 @@ const Navbar = () => {
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </DropdownContainer>
+            </DropdownTrigger>
 
             {/* Mobile expandable */}
             <MobileIndustriesWrapper>
@@ -221,26 +220,23 @@ const NavLink = styled(Link)`
 
 // ── Desktop Dropdown ──────────────────────────────────────────────────────────
 
-const DropdownContainer = styled.div`
-  position: relative;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
 const DropdownTrigger = styled.button`
+  /* Sit in the flex row exactly like the NavLink <a> tags */
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  appearance: none;
+  -webkit-appearance: none;
   background: none;
   border: none;
+  outline: none;
   padding: 0;
   margin: 0;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
-  line-height: normal;
+  line-height: 1;
   color: #333;
   cursor: pointer;
   transition: color 0.2s;
@@ -252,6 +248,10 @@ const DropdownTrigger = styled.button`
 
   &:hover {
     color: ${props => props.theme.colors.primary};
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
