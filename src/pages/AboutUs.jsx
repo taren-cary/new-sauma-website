@@ -79,7 +79,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button as={Link} to="/mercury">Explore AI Workers</Button>
+          <Button as={Link} to="/industries/real-estate">See Our Work</Button>
           <Button as={Link} to="/book-demo">Book a Demo</Button>
         </ButtonContainer>
       </HeroContent>

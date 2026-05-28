@@ -131,10 +131,11 @@ const Footer = () => {
         </FooterAbout>
         
         <FooterColumn>
-          <FooterHeading>Products</FooterHeading>
+          <FooterHeading>Industries</FooterHeading>
           <FooterLinks>
-            <FooterLink><Link to="/mercury">Mercury</Link></FooterLink>
-            <FooterLink><Link to="/aphrodite">Aphrodite-Coming Soon</Link></FooterLink>
+            <FooterLink><Link to="/industries/real-estate">Real Estate</Link></FooterLink>
+            <FooterLink><Link to="/industries/medspas">Medspas</Link></FooterLink>
+            <FooterLink><Link to="/industries/mobile-detailing">Mobile Detailing</Link></FooterLink>
           </FooterLinks>
         </FooterColumn>
         
