@@ -169,7 +169,7 @@ const MobileMenuButton = styled.button`
 
 const NavLinks = styled.nav`
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 2rem;
 
   @media (max-width: 768px) {
@@ -203,6 +203,7 @@ const NavLink = styled(Link)`
   position: relative;
   transition: color 0.3s ease;
   font-size: 1rem;
+  line-height: 1.5;
   min-height: unset;
   min-width: unset;
 
@@ -232,6 +233,7 @@ const DropdownTrigger = styled.div`
   gap: 4px;
   font-size: 1rem;
   font-weight: 500;
+  line-height: 1.5;
   color: #333;
   cursor: pointer;
   user-select: none;
