@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -5,18 +6,23 @@ import Button from '../common/Button';
 import TextType from '../common/TextType';
 
 const Hero = () => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    video.src = isMobile
+      ? '/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile.mp4'
+      : '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
+    video.load();
+    video.play().catch(() => {});
+  }, []);
+
   return (
     <HeroContainer>
       <HeroBackground>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile.mp4" media="(max-width: 768px)" />
-          <source src="/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4" />
-        </video>
+        <video ref={videoRef} autoPlay muted loop playsInline />
         <VideoOverlay />
       </HeroBackground>
 
