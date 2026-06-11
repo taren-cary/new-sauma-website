@@ -3,20 +3,23 @@ import { motion } from 'framer-motion';
 
 const SectionContainer = styled.section`
   padding: 5rem 0;
-  background-color: rgba(245, 245, 247, 0.5);
 `;
 
 const SectionHeading = styled.h2`
   font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   text-align: center;
   margin-bottom: 4rem;
-  margin-top: 0.1rem;
+  background: linear-gradient(135deg, #fafafa 20%, #c4b5fd 70%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     padding: 0 1rem;
-    margin-top: -2rem;
   }
 `;
 
@@ -35,30 +38,31 @@ const ComparisonTable = styled.div`
 const ComparisonHeader = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  background-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.06);
   padding: 1.5rem;
   font-weight: 600;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 `;
 
 const ComparisonRow = styled(motion.div)`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   &:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
   }
 `;
 
 const FeatureCell = styled.div`
   font-weight: 500;
+  color: rgba(250, 250, 250, 0.8);
 `;
 
 const ComparisonCell = styled.div`
@@ -69,62 +73,25 @@ const ComparisonCell = styled.div`
 `;
 
 const CheckIcon = styled.span`
-  color: #4CAF50;
+  color: #4ade80;
   font-size: 1.5rem;
 `;
 
 const CrossIcon = styled.span`
-  color: #F44336;
+  color: rgba(250, 250, 250, 0.25);
   font-size: 1.5rem;
 `;
 
-// Comparison data
 const comparisonData = [
-  {
-    feature: "24/7 Availability",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "No Sick Days or Time Off",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Consistent Performance",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Handles Multiple Calls Simultaneously",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Automatic Call Transcription",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Instant CRM Updates",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Multilingual Support",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Zero Training Time",
-    mercury: true,
-    traditional: false
-  },
-  {
-    feature: "Predictable Monthly Cost",
-    mercury: true,
-    traditional: false
-  }
+  { feature: "24/7 Availability", mercury: true, traditional: false },
+  { feature: "No Sick Days or Time Off", mercury: true, traditional: false },
+  { feature: "Consistent Performance", mercury: true, traditional: false },
+  { feature: "Handles Multiple Calls Simultaneously", mercury: true, traditional: false },
+  { feature: "Automatic Call Transcription", mercury: true, traditional: false },
+  { feature: "Instant CRM Updates", mercury: true, traditional: false },
+  { feature: "Multilingual Support", mercury: true, traditional: false },
+  { feature: "Zero Training Time", mercury: true, traditional: false },
+  { feature: "Predictable Monthly Cost", mercury: true, traditional: false },
 ];
 
 const ComparisonSection = () => {
@@ -138,13 +105,13 @@ const ComparisonSection = () => {
             <div>Mercury</div>
             <div>Traditional Methods</div>
           </ComparisonHeader>
-          
+
           {comparisonData.map((item, index) => (
             <ComparisonRow
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.07 }}
               viewport={{ once: true }}
             >
               <FeatureCell>{item.feature}</FeatureCell>
@@ -162,4 +129,4 @@ const ComparisonSection = () => {
   );
 };
 
-export default ComparisonSection; 
+export default ComparisonSection;

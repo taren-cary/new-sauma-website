@@ -13,7 +13,7 @@ const Hero = () => {
           muted
           loop
           playsInline
-          src="/assets/Sauma%20Website%20Homepage%20Hero%20Video.mp4"
+          src="/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4"
         />
         <VideoOverlay />
       </HeroBackground>
