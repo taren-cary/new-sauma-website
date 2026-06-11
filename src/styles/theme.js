@@ -2,11 +2,11 @@ const theme = {
   colors: {
     primary: '#6C63FF',
     secondary: '#FF6584',
-    background: '#F8F8F8',
-    text: '#333333',
-    lightText: '#666666',
-    glass: 'rgba(255, 255, 255, 0.25)',
-    glassBorder: 'rgba(255, 255, 255, 0.18)',
+    background: '#09090b',
+    text: '#fafafa',
+    lightText: 'rgba(250,250,250,0.55)',
+    glass: 'rgba(255, 255, 255, 0.06)',
+    glassBorder: 'rgba(255, 255, 255, 0.1)',
     accent1: '#6C63FF',
     accent2: '#FF6584',
     accent3: '#4CAF50',
@@ -23,17 +23,17 @@ const theme = {
     xl: '1200px',
   },
   glassmorphism: {
-    background: 'rgba(255, 255, 255, 0.25)',
-    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-    backdropFilter: 'blur(4px)',
-    border: '1px solid rgba(255, 255, 255, 0.18)',
+    background: 'rgba(255, 255, 255, 0.05)',
+    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
     borderRadius: '10px',
   },
   shadows: {
-    small: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    medium: '0 8px 24px rgba(0, 0, 0, 0.15)',
-    large: '0 15px 35px rgba(0, 0, 0, 0.2)',
+    small: '0 4px 8px rgba(0, 0, 0, 0.3)',
+    medium: '0 8px 24px rgba(0, 0, 0, 0.4)',
+    large: '0 15px 35px rgba(0, 0, 0, 0.5)',
   },
 };
 
-export default theme; 
+export default theme;
