@@ -1,31 +1,33 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Home, Activity, Truck, ArrowRight } from 'react-feather';
+import { ArrowRight } from 'react-feather';
+import BorderGlow from '../common/BorderGlow';
+import SectionLabel from '../common/SectionLabel';
 
 const INDUSTRIES = [
   {
-    icon: Home,
+    number: '01',
     name: 'Real Estate',
     path: '/industries/real-estate',
     description:
-      'A fully autonomous system that qualifies inbound leads, books property showings, follows up by call, SMS, and email, and updates your CRM — around the clock.',
+      'Autonomous lead qualification, showing scheduling, multi-channel follow-up, and CRM operations — running continuously without your involvement.',
     status: 'live',
   },
   {
-    icon: Activity,
+    number: '02',
     name: 'Medspas',
     path: '/industries/medspas',
     description:
-      'AI that handles consultation bookings, lead nurturing, appointment reminders, and client follow-ups so your staff can stay focused on patient care.',
+      'End-to-end consultation scheduling, lead nurturing, and appointment management — so your team stays focused on patient outcomes.',
     status: 'live',
   },
   {
-    icon: Truck,
+    number: '03',
     name: 'Mobile Detailing',
     path: '/industries/mobile-detailing',
     description:
-      'Automated lead capture, job booking, route-based scheduling, and follow-up — built specifically for mobile detailing operations.',
+      'Lead capture, job booking, route scheduling, and automated follow-up — a complete operations layer built for mobile detailing businesses.',
     status: 'live',
   },
 ];
@@ -33,50 +35,68 @@ const INDUSTRIES = [
 const AgencySection = () => {
   return (
     <SectionContainer id="industries">
-      <BackgroundSVG>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </BackgroundSVG>
-
+      <OrbOne />
+      <OrbTwo />
       <ContentContainer>
-        <SectionHeading>Built for your industry</SectionHeading>
+        <SectionLabel>Systems</SectionLabel>
+        <SectionHeading>Purpose-built for your industry</SectionHeading>
         <SectionSubheading>
-          Every system is custom-built from the ground up for the specific workflows, lead types, and tools your industry uses. No templates. No one-size-fits-all.
+          Every deployment is engineered from the ground up for the specific tools, workflows, and lead dynamics of your industry. Not configured — built.
         </SectionSubheading>
 
         <Grid>
-          {INDUSTRIES.map((industry, index) => {
-            const Icon = industry.icon;
-            return (
-              <IndustryCard
-                key={industry.name}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.12 }}
-                viewport={{ once: true }}
-                as={industry.status === 'live' ? Link : 'div'}
-                to={industry.status === 'live' ? industry.path : undefined}
-                isLive={industry.status === 'live'}
-              >
-                <CardTop>
-                  <IconWrapper>
-                    <Icon size={26} />
-                  </IconWrapper>
-                  {industry.status === 'coming-soon' && (
-                    <Badge>Coming Soon</Badge>
-                  )}
-                </CardTop>
-
-                <IndustryName>{industry.name}</IndustryName>
-                <IndustryDesc>{industry.description}</IndustryDesc>
-
-                {industry.status === 'live' && (
-                  <LearnMore>
-                    Learn more <ArrowRight size={15} />
-                  </LearnMore>
-                )}
-              </IndustryCard>
-            );
-          })}
+          {INDUSTRIES.map((industry, index) => (
+            <CardWrapper
+              key={industry.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              viewport={{ once: true }}
+              isLive={industry.status === 'live'}
+            >
+              {industry.status === 'live' ? (
+                <CardLink to={industry.path}>
+                  <BorderGlow
+                    backgroundColor="rgba(255,255,255,0.04)"
+                    borderRadius={20}
+                    colors={['#6C63FF', '#a78bfa', '#4F46E5']}
+                    glowColor="258 60 65"
+                    glowIntensity={1.2}
+                    edgeSensitivity={28}
+                  >
+                    <CardInner>
+                      <CardTop>
+                        <NumberTag>{industry.number}</NumberTag>
+                      </CardTop>
+                      <IndustryName>{industry.name}</IndustryName>
+                      <IndustryDesc>{industry.description}</IndustryDesc>
+                      <LearnMore>
+                        Explore system <ArrowRight size={14} />
+                      </LearnMore>
+                    </CardInner>
+                  </BorderGlow>
+                </CardLink>
+              ) : (
+                <BorderGlow
+                  backgroundColor="rgba(255,255,255,0.04)"
+                  borderRadius={20}
+                  colors={['#6C63FF', '#a78bfa', '#4F46E5']}
+                  glowColor="258 60 65"
+                  glowIntensity={1.2}
+                  edgeSensitivity={28}
+                >
+                  <CardInner>
+                    <CardTop>
+                      <NumberTag>{industry.number}</NumberTag>
+                      <Badge>Coming Soon</Badge>
+                    </CardTop>
+                    <IndustryName>{industry.name}</IndustryName>
+                    <IndustryDesc>{industry.description}</IndustryDesc>
+                  </CardInner>
+                </BorderGlow>
+              )}
+            </CardWrapper>
+          ))}
         </Grid>
       </ContentContainer>
     </SectionContainer>
@@ -84,35 +104,46 @@ const AgencySection = () => {
 };
 
 const SectionContainer = styled.section`
-  padding: 5rem 0;
+  padding: 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
 
   @media (max-width: 768px) {
-    padding: 3.5rem 0;
+    padding: 4rem 0;
   }
 `;
 
-const BackgroundSVG = styled.div`
+const OrbOne = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+  width: 700px;
+  height: 700px;
+  top: -200px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(70px);
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+const OrbTwo = styled.div`
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.09) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(70px);
 `;
 
 const ContentContainer = styled.div`
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 2rem;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: 768px) {
     padding: 0 1.5rem;
@@ -122,8 +153,12 @@ const ContentContainer = styled.div`
 const SectionHeading = styled.h2`
   font-size: 2.2rem;
   font-weight: 700;
-  color: #000;
+  letter-spacing: -0.02em;
   margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fafafa 20%, #c4b5fd 70%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   @media (max-width: 768px) {
     font-size: 1.7rem;
@@ -131,11 +166,11 @@ const SectionHeading = styled.h2`
 `;
 
 const SectionSubheading = styled.p`
-  font-size: 1.1rem;
-  color: #444;
-  max-width: 620px;
-  margin: 0 auto 3rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  color: rgba(250, 250, 250, 0.5);
+  max-width: 580px;
+  margin: 0 auto 3.5rem;
+  line-height: 1.75;
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -146,7 +181,7 @@ const SectionSubheading = styled.p`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
@@ -155,78 +190,74 @@ const Grid = styled.div`
   }
 `;
 
-const IndustryCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  padding: 2rem;
-  text-align: left;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
-  transition: transform 0.25s, box-shadow 0.25s;
-  text-decoration: none;
-  color: inherit;
-  display: block;
+const CardWrapper = styled(motion.div)`
+  transition: transform 0.25s;
   cursor: ${({ isLive }) => isLive ? 'pointer' : 'default'};
 
   &:hover {
     transform: ${({ isLive }) => isLive ? 'translateY(-4px)' : 'none'};
-    box-shadow: ${({ isLive }) => isLive ? '0 12px 32px rgba(108, 99, 255, 0.15)' : '0 4px 20px rgba(0, 0, 0, 0.07)'};
   }
+`;
+
+const CardLink = styled(Link)`
+  display: block;
+  text-decoration: none;
+  color: inherit;
+`;
+
+const CardInner = styled.div`
+  padding: 2rem;
+  text-align: left;
 `;
 
 const CardTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 `;
 
-const IconWrapper = styled.div`
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(108, 99, 255, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    color: #6C63FF;
-  }
+const NumberTag = styled.div`
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgba(250, 250, 250, 0.18);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 `;
 
 const Badge = styled.span`
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  background: rgba(108, 99, 255, 0.1);
-  color: #6C63FF;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(250, 250, 250, 0.45);
   padding: 4px 10px;
   border-radius: 20px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const IndustryName = styled.h3`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #111;
+  color: #fafafa;
   margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 `;
 
 const IndustryDesc = styled.p`
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.65;
-  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: rgba(250, 250, 250, 0.5);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
 `;
 
 const LearnMore = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #6C63FF;
 
@@ -234,7 +265,7 @@ const LearnMore = styled.div`
     transition: transform 0.2s;
   }
 
-  ${IndustryCard}:hover & svg {
+  ${CardWrapper}:hover & svg {
     transform: translateX(4px);
   }
 `;

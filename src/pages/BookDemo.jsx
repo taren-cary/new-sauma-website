@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, Users, CheckCircle, Globe, Zap, Phone } from 'react-feather';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, Clock, Users, CheckCircle, Globe, Zap, Phone, ChevronDown } from 'react-feather';
 import { useState } from 'react';
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import SectionLabel from '../components/common/SectionLabel';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import TestimonialSlider from '../components/common/TestimonialSlider';
@@ -28,19 +29,30 @@ const HeroContainer = styled.section`
   }
 `;
 
-const HeroBackground = styled.div`
+const OrbHeroOne = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  width: 700px;
+  height: 700px;
+  top: -250px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.13) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+`;
+
+const OrbHeroTwo = styled.div`
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  bottom: -200px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
 `;
 
 const HeroContent = styled.div`
@@ -105,11 +117,13 @@ const BenefitItem = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
-  font-size: 1.1rem;
-  
+  font-size: 1.05rem;
+  color: rgba(250, 250, 250, 0.75);
+
   svg {
     margin-right: 12px;
-    color: ${props => props.theme.colors.primary};
+    flex-shrink: 0;
+    color: rgba(250, 250, 250, 0.4);
   }
 `;
 
@@ -281,9 +295,15 @@ const Container = styled.div`
 
 const SectionHeading = styled.h2`
   font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   text-align: center;
   margin-bottom: 3rem;
-  
+  background: linear-gradient(135deg, #fafafa 20%, #c4b5fd 70%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
   @media (max-width: 768px) {
     font-size: 1.6rem;
     margin-bottom: 2rem;
@@ -313,17 +333,18 @@ const InfoGlassCard = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
-  
+
   svg {
-    color: ${props => props.theme.colors.primary};
+    color: rgba(250, 250, 250, 0.55);
   }
 `;
 
@@ -339,37 +360,64 @@ const CardDescription = styled.p`
 `;
 
 const FAQContainer = styled.div`
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
 `;
 
 const FAQItem = styled.div`
-  ${props => props.theme.glassmorphism};
-  margin-bottom: 1rem;
-  border-radius: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+`;
+
+const FAQQuestion = styled.button`
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fafafa;
+  transition: color 0.2s;
+
+  &:hover {
+    color: rgba(250, 250, 250, 0.7);
+  }
+`;
+
+const FAQChevron = styled(ChevronDown)`
+  flex-shrink: 0;
+  color: rgba(250, 250, 250, 0.4);
+  transition: transform 0.25s ease;
+  transform: ${({ $isOpen }) => $isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
+`;
+
+const FAQAnswer = styled(motion.div)`
   overflow: hidden;
 `;
 
-const FAQQuestion = styled.h3`
-  padding: 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
-`;
-
-const FAQAnswer = styled.div`
-  padding: 0 1.5rem 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  opacity: 0.8;
+const FAQAnswerInner = styled.div`
+  padding-bottom: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.55);
 `;
 
 const BookDemo = () => {
   return (
     <>
       <Helmet>
-        <title>Book a Demo - Sauma AI</title>
-        <meta name="description" content="Get your custom AI demo in just 15 minutes. Simply share your website and we'll create a personalized AI agent for your business." />
+        <title>Book a Demo — Sauma AI</title>
+        <meta name="description" content="See a working demonstration of your AI system in 30 minutes. Submit your details and we'll build it for your business before the call." />
       </Helmet>
       
       <Navbar />
@@ -377,7 +425,7 @@ const BookDemo = () => {
       <main>
         <HeroSection />
         <LogoSection>
-          <LogoHeading>Businesses That Trust Sauma AI</LogoHeading>
+          <LogoHeading>The businesses running on Sauma</LogoHeading>
           <LogoScroller />
         </LogoSection>
         <DemoInfoSection />
@@ -418,21 +466,25 @@ const PhoneIcon = styled(Phone)`
 // Add new styled components for the logo scroller section
 const LogoSection = styled.section`
   padding: 3rem 0;
-  background-color: rgba(245, 245, 247, 0.5);
-  
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
   @media (max-width: 768px) {
     padding: 2rem 0;
   }
 `;
 
 const LogoHeading = styled.h2`
-  font-size: 1.8rem;
+  font-size: 1rem;
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
-  
+  color: rgba(250, 250, 250, 0.35);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
   @media (max-width: 768px) {
-    font-size: 1.4rem;
+    font-size: 0.85rem;
     margin-bottom: 1.5rem;
     padding: 0 1rem;
   }
@@ -580,9 +632,8 @@ const HeroSection = () => {
 
   return (
     <HeroContainer>
-      <HeroBackground>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </HeroBackground>
+      <OrbHeroOne />
+      <OrbHeroTwo />
       
       <HeroContent>
         <LeftColumn>
@@ -591,7 +642,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Your Custom AI Demo in Just 15 Minutes
+            See your AI system in action. Built for your business before the call.
           </HeroHeading>
           
           <HeroSubheading
@@ -599,7 +650,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Share your website and we'll create a personalized AI agent tailored to your business. See it in action at your chosen time.
+            Submit your details and we'll build a working demonstration of your AI system before the call — so you see exactly what you're deploying, not a generic walkthrough.
           </HeroSubheading>
           
           <BenefitsList
@@ -609,15 +660,15 @@ const HeroSection = () => {
           >
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>We analyze your website and create a custom AI</span>
+              <span>We review your business and build a working demo before the call</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>Book a time that works for your schedule</span>
+              <span>Choose a time that works for your schedule</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>See your AI in action during the demo</span>
+              <span>See your actual system running — not a slide deck</span>
             </BenefitItem>
           </BenefitsList>
           
@@ -636,7 +687,7 @@ const HeroSection = () => {
           <FormGlassCard>
             {!isSubmitted ? (
               <>
-                <FormTitle>Book a Demo</FormTitle>
+                <FormTitle>Request your demo</FormTitle>
                 <Form onSubmit={handleSubmit}>
                   <FormGroup>
                     <Label htmlFor="name">Full Name *</Label>
@@ -704,7 +755,7 @@ const HeroSection = () => {
                   </FormGroup>
                   
                   <SubmitButton type="submit" disabled={isLoading}>
-                    {isLoading ? 'Submitting...' : 'Book a Demo'}
+                    {isLoading ? 'Submitting...' : 'Request demo'}
                   </SubmitButton>
                   
                   {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -713,33 +764,33 @@ const HeroSection = () => {
             ) : demoScheduled ? (
               <>
                 <PlainSuccessMessage>
-                  <h4>Demo Scheduled Successfully! 🎉</h4>
-                  <p>Thank you for booking your demo! We'll call you at your scheduled time to show you your custom AI in action.</p>
+                  <h4>Demo confirmed.</h4>
+                  <p>Your demo is scheduled. We'll have a working version of your system built before the call.</p>
                 </PlainSuccessMessage>
-                
-                <CalendarTitle>What's Next?</CalendarTitle>
+
+                <CalendarTitle>What's next</CalendarTitle>
                 <CalendarDescription>
-                  We'll analyze your website and create your custom AI before your demo. You'll receive a confirmation email with all the details.
+                  We'll review your business details and build a working demonstration of your system before the call. A confirmation has been sent to your email.
                 </CalendarDescription>
               </>
             ) : (
               <>
                 <PlainSuccessMessage>
-                  <h4>Perfect! 🎉</h4>
-                  <p>We've received your information and will create your custom AI. Now book your demo time:</p>
+                  <h4>Request received.</h4>
+                  <p>We have your details. Select a time below and we'll have your system demo ready before the call.</p>
                 </PlainSuccessMessage>
-                
-                <CalendarTitle>Ready to Book Your Demo?</CalendarTitle>
+
+                <CalendarTitle>Select a time</CalendarTitle>
                 <CalendarDescription>
-                  Click the button below to open our calendar and choose a time that works for you.
+                  Choose a time that works for you. We'll build your system demo before the call.
                 </CalendarDescription>
-                
+
                 <CalendarButton
                   data-cal-namespace="free-mercury-demo-30-min"
                   data-cal-link="sauma-ai/free-mercury-demo-30-min"
                   data-cal-config={`{"layout":"month_view","theme":"light","name":"${submittedData?.name || ''}","email":"${submittedData?.email || ''}"}`}
                 >
-                  📅 Book Your Demo Time
+                  Book your time
                 </CalendarButton>
               </>
             )}
@@ -755,36 +806,37 @@ const DemoInfoSection = () => {
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>How Your Custom AI Demo Works</SectionHeading>
-        
+        <SectionLabel>Deployment</SectionLabel>
+        <SectionHeading>How it works</SectionHeading>
+
         <InfoCardsGrid>
           <InfoGlassCard>
             <IconWrapper>
               <Globe size={28} />
             </IconWrapper>
-            <CardTitle>1. Share Your Website</CardTitle>
+            <CardTitle>01 — Submit your details</CardTitle>
             <CardDescription>
-              Simply provide your website URL and we'll analyze your business to understand your needs.
+              Share your website URL and business details. We use this to build a working demo of your system before you ever get on a call.
             </CardDescription>
           </InfoGlassCard>
-          
+
           <InfoGlassCard>
             <IconWrapper>
               <Zap size={28} />
             </IconWrapper>
-            <CardTitle>2. We Build Your AI</CardTitle>
+            <CardTitle>02 — We build your demo</CardTitle>
             <CardDescription>
-              Our team creates a personalized AI agent specifically designed for your business operations.
+              Our team configures a real, working version of your AI system — calibrated to your industry, your business, and your workflows.
             </CardDescription>
           </InfoGlassCard>
-          
+
           <InfoGlassCard>
             <IconWrapper>
               <Calendar size={28} />
             </IconWrapper>
-            <CardTitle>3. Book & Demo</CardTitle>
+            <CardTitle>03 — See it in action</CardTitle>
             <CardDescription>
-              Choose a time that works for you and see your custom AI in action during the demo.
+              In a 30-minute call, we walk you through exactly what we built — live, not a slide deck — and show you how it would run for your business.
             </CardDescription>
           </InfoGlassCard>
         </InfoCardsGrid>
@@ -798,7 +850,8 @@ const TestimonialSection = () => {
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>What Our Clients Say About Their Custom AI Demo</SectionHeading>
+        <SectionLabel>Outcomes</SectionLabel>
+        <SectionHeading>What our clients say</SectionHeading>
         <TestimonialSlider />
       </Container>
     </SectionContainer>
@@ -807,38 +860,55 @@ const TestimonialSection = () => {
 
 // FAQ mini-section
 const FAQSection = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
   const demoFaqs = [
     {
       id: 1,
-      question: "How long does it take to create my custom AI?",
-      answer: "We typically create your custom AI within 24-48 hours after receiving your website information. This ensures we have enough time to analyze your business and build something truly personalized."
+      question: "How long does it take to build my demo?",
+      answer: "We build your demo within 24 hours of receiving your details. By the time you get on the call, you're seeing a configured version of the system — not a generic walkthrough."
     },
     {
       id: 2,
-      question: "What information do you need from my website?",
-      answer: "We analyze your website content, services, target audience, and business processes to understand how an AI agent can best serve your specific needs. No additional information needed!"
+      question: "What do you need from me before the call?",
+      answer: "Your business name, website URL, and contact details are enough to get started. We'll review your business and configure the system before the call."
     },
     {
       id: 3,
-      question: "Can I reschedule my demo if needed?",
-      answer: "Absolutely! You can reschedule your demo up to 2 hours before the scheduled time using the calendar link we provide."
+      question: "Can I reschedule if something comes up?",
+      answer: "Yes. You can reschedule using the calendar link in your confirmation email up to 2 hours before the scheduled time."
     },
     {
       id: 4,
       question: "What happens after the demo?",
-      answer: "After your demo, we'll provide you with a detailed proposal including pricing, implementation timeline, and next steps to get your AI agent up and running."
+      answer: "If the system is a fit, we'll walk you through scope, timeline, and pricing. Most deployments go live within a week of signing."
     }
   ];
-  
+
   return (
     <SectionContainer>
       <Container>
-        <SectionHeading>Common Questions About Our Custom AI Demos</SectionHeading>
+        <SectionLabel>FAQ</SectionLabel>
+        <SectionHeading>Common questions</SectionHeading>
         <FAQContainer>
-          {demoFaqs.map(faq => (
+          {demoFaqs.map((faq, index) => (
             <FAQItem key={faq.id}>
-              <FAQQuestion>{faq.question}</FAQQuestion>
-              <FAQAnswer>{faq.answer}</FAQAnswer>
+              <FAQQuestion onClick={() => setOpenIndex(openIndex === index ? null : index)}>
+                <span>{faq.question}</span>
+                <FAQChevron $isOpen={openIndex === index} size={18} />
+              </FAQQuestion>
+              <AnimatePresence initial={false}>
+                {openIndex === index && (
+                  <FAQAnswer
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  >
+                    <FAQAnswerInner>{faq.answer}</FAQAnswerInner>
+                  </FAQAnswer>
+                )}
+              </AnimatePresence>
             </FAQItem>
           ))}
         </FAQContainer>

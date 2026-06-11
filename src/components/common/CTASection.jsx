@@ -1,14 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from './Button';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import Beams from './Beams';
 
 const CTAContainer = styled.section`
   padding: 5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  
+
   @media (max-width: 768px) {
     padding: 3rem 0;
   }
@@ -21,7 +22,7 @@ const BackgroundSVG = styled.div`
   width: 100%;
   height: 100%;
   z-index: -1;
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -29,11 +30,22 @@ const BackgroundSVG = styled.div`
   }
 `;
 
+const BeamsBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+`;
+
 const CTAContent = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  
+  position: relative;
+  z-index: 2;
+
   @media (max-width: 768px) {
     padding: 0 1.5rem;
   }
@@ -51,7 +63,7 @@ const Logo = styled.img`
   height: ${props => props.logoSize || '200px'};
   margin-bottom: -1rem;
   margin-top: -1.5rem;
-  
+
   @media (max-width: 768px) {
     height: ${props => props.logoSize ? `calc(${props.logoSize} * 0.75)` : '150px'};
     margin-bottom: -0.7rem;
@@ -70,12 +82,12 @@ const LimitedBadge = styled(motion.div)`
   padding: 6px 15px;
   font-size: 0.8rem;
   font-weight: 500;
-  color:rgb(0, 0, 0);
+  color: #fafafa;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 3;
   margin-top: 0.2rem;
-  
-  
+
+
   @media (max-width: 768px) {
     font-size: 0.7rem;
     padding: 5px 12px;
@@ -85,10 +97,15 @@ const LimitedBadge = styled(motion.div)`
   }
 `;
 
+const darkTextStyles = css`
+  color: #fff;
+`;
+
 const CTAHeading = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  
+  ${({ dark }) => dark && darkTextStyles}
+
   @media (max-width: 768px) {
     font-size: 1.8rem;
     margin-bottom: 1rem;
@@ -98,7 +115,8 @@ const CTAHeading = styled.h2`
 const CTAText = styled.p`
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  
+  ${({ dark }) => dark && darkTextStyles}
+
   @media (max-width: 768px) {
     font-size: 1rem;
     margin-bottom: 1.5rem;
@@ -107,9 +125,9 @@ const CTAText = styled.p`
 
 const TrialText = styled.p`
   font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.8);
+  color: ${({ dark }) => dark ? 'rgba(255,255,255,0.7)' : 'rgba(250,250,250,0.5)'};
   margin-top: 1rem;
-  
+
   @media (max-width: 768px) {
     font-size: 0.8rem;
     margin-top: 0.8rem;
@@ -117,25 +135,36 @@ const TrialText = styled.p`
   }
 `;
 
-const CTASection = ({ 
-  heading = "Ready To Put Your Business On Autopilot?", 
+const CTASection = ({
+  heading = "Ready To Put Your Business On Autopilot?",
   text = "Say goodbye to slow follow-ups, missed opportunities, tedious scheduling, and generic outreach—hire our AI workers today and transform the way you grow your business!",
   buttonText = "Get Started",
   buttonLink = "/",
   showLogo = false,
   logoSrc = "/assets/mercury_logo.svg",
   showLimitedBadge = false,
-  logoSize = null
+  logoSize = null,
+  showBeams = false,
 }) => {
-  // Check if it's an internal link (starts with /) or external
   const isInternalLink = buttonLink.startsWith('/') && !buttonLink.includes('://');
-  
+
   return (
     <CTAContainer>
-      <BackgroundSVG>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </BackgroundSVG>
-      
+      {showBeams ? (
+        <BeamsBackground>
+          <Beams
+            beamWidth={2}
+            beamHeight={15}
+            beamNumber={14}
+            lightColor="#ffffff"
+            speed={1.5}
+            noiseIntensity={1.5}
+            scale={0.18}
+            rotation={0}
+          />
+        </BeamsBackground>
+      ) : null}
+
       <CTAContent>
         {showLogo && (
           <LogoContainer>
@@ -151,17 +180,16 @@ const CTASection = ({
             <Logo src={logoSrc} alt="Logo" logoSize={logoSize} />
           </LogoContainer>
         )}
-        <CTAHeading>{heading}</CTAHeading>
-        <CTAText>{text}</CTAText>
+        <CTAHeading dark={showBeams}>{heading}</CTAHeading>
+        <CTAText dark={showBeams}>{text}</CTAText>
         {isInternalLink ? (
           <Button as={Link} to={buttonLink} fullWidthMobile>{buttonText}</Button>
         ) : (
           <Button as="a" href={buttonLink} fullWidthMobile>{buttonText}</Button>
         )}
-        <TrialText>7-day risk free trial. No credit card required.</TrialText>
       </CTAContent>
     </CTAContainer>
   );
 };
 
-export default CTASection; 
+export default CTASection;

@@ -7,79 +7,79 @@ import TestimonialSlider from '../components/common/TestimonialSlider';
 import CTASection from '../components/common/CTASection';
 import Button from '../components/common/Button';
 import TrustSection from '../components/home/TrustSection';
+import FadeInSection from '../components/common/FadeInSection';
+import SectionLabel from '../components/common/SectionLabel';
 import { Link } from 'react-router-dom';
 
 const AboutUsPage = () => {
   return (
     <>
       <Helmet>
-        <title>About Us - Sauma AI</title>
-        <meta name="description" content="Learn about Sauma AI's journey, mission, and the team behind our revolutionary AI workers." />
+        <title>About — Sauma AI</title>
+        <meta name="description" content="Sauma AI builds autonomous systems that handle the operational work of running a business — purpose-built for real estate, medspas, and mobile detailing." />
       </Helmet>
-      
+
       <Navbar />
-      
+
       <main>
         <HeroSection />
-        <TrustSection />
-        <StorySection />
-        <TeamSection />
-        <ValuesSection />
-        
-        <SectionContainer>
-          <Container>
-            <SectionHeading>What Our Clients Say About Us</SectionHeading>
-            <TestimonialSlider />
-          </Container>
-        </SectionContainer>
-        
-        <CTASection 
-          heading="Ready To Transform Your Business?" 
-          text="Join us on our mission to revolutionize the way businesses operate with AI. Let's build the future together."
+
+        <FadeInSection><TrustSection /></FadeInSection>
+        <FadeInSection><StorySection /></FadeInSection>
+        <FadeInSection><ValuesSection /></FadeInSection>
+
+        <FadeInSection>
+          <SectionContainer>
+            <Container>
+              <SectionLabel>Outcomes</SectionLabel>
+        <SectionHeading>What our clients say</SectionHeading>
+              <TestimonialSlider />
+            </Container>
+          </SectionContainer>
+        </FadeInSection>
+
+        <CTASection
+          heading="Work with Sauma."
+          text="If you're running a serious business and want to understand what autonomous operations could look like for your workflows, let's talk."
           buttonText="Get In Touch"
           buttonLink="/contact"
-          showLogo={true}
-          logoSrc="/assets/sauma_logo.png"
-          logoSize="120px"
+          showBeams
         />
       </main>
-      
+
       <Footer />
     </>
   );
 };
 
-// Hero Section Component
 const HeroSection = () => {
   return (
     <HeroContainer>
-      <HeroBackground>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </HeroBackground>
-      
+      <OrbHeroOne />
+      <OrbHeroTwo />
       <HeroContent>
         <HeroHeading
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Building The Future Of Work
+          We build the systems businesses run on.
         </HeroHeading>
-        
+
         <HeroSubheading
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          We're on a mission to transform how businesses operate by creating AI workers that handle complex tasks with human-like capabilities.
+          Sauma was founded to do one thing: build autonomous AI systems that handle the operational work of running a business, so the people behind it can focus on what only they can do.
         </HeroSubheading>
-        
+
         <ButtonContainer
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button as={Link} to="/industries/real-estate">See Our Work</Button>
+          <Button as={Link} to="/industries/real-estate">View our systems</Button>
           <Button as={Link} to="/book-demo">Book a Demo</Button>
         </ButtonContainer>
       </HeroContent>
@@ -87,40 +87,19 @@ const HeroSection = () => {
   );
 };
 
-// Our Story Section Component
 const StorySection = () => {
   const milestones = [
-    {
-      year: '2022',
-      title: 'Where It All Began',
-      description: 'Founded with a vision to create AI workers that could autonomously handle complex tasks, we set out to build something revolutionary.'
-    },
-    {
-      year: '2023',
-      title: 'Mercury Is Born',
-      description: 'After months of research and development, we launched our first AI worker - Mercury, designed to revolutionize how businesses handle reception and scheduling.'
-    },
-    {
-      year: '2024',
-      title: 'Growing Our Impact',
-      description: 'Expanded our team and capabilities, helping dozens of businesses transform their operations through AI automation.'
-    },
-    {
-      year: '2025',
-      title: 'Looking Ahead',
-      description: 'Continuing to push boundaries with new AI workers and capabilities, serving businesses across multiple industries.'
-    }
+    { year: '2022', title: 'The founding', description: 'Sauma is incorporated with a single thesis: the operational overhead of running a business is a solvable problem — with the right autonomous systems.' },
+    { year: '2023', title: 'First system deployed', description: 'Mercury goes live — handling inbound calls, lead qualification, and appointment booking for real businesses in real industries.' },
+    { year: '2024', title: 'Expanding across industries', description: 'Purpose-built systems deployed across real estate, medspas, and mobile detailing. Each engineered from the ground up for its industry.' },
+    { year: '2025', title: 'Building what\'s next', description: 'Expanding the system portfolio, deepening integrations, and building the infrastructure layer that growing businesses will run on.' },
   ];
 
   return (
     <SectionContainer>
-      <BackgroundSVG>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </BackgroundSVG>
-      
       <Container>
-        <SectionHeading>Our Journey</SectionHeading>
-        
+        <SectionLabel>Trajectory</SectionLabel>
+        <SectionHeading>Our trajectory</SectionHeading>
         <TimelineContainer>
           {milestones.map((milestone, index) => (
             <TimelineCard
@@ -141,83 +120,20 @@ const StorySection = () => {
   );
 };
 
-// Team Section Component
-const TeamSection = () => {
-  const teamMembers = [
-    {
-      name: 'Taren Cary',
-      role: 'Founder & CEO',
-      bio: 'With a passion for computer science and a vision for the future, Taren founded Sauma AI to assist the world in the transition to a more automated future. In addition to his work at Sauma, Taren adds his unique perspective to the fields of blockchain, energy efficiency, biotechnology, and more.',
-      image: '/assets/ceologo.png'
-    },
-  ];
 
-  return (
-    <SectionContainer>
-      <BackgroundSVG>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </BackgroundSVG>
-      
-      <Container>
-        <SectionHeading>Meet Our Founder</SectionHeading>
-        
-        <TeamGrid itemCount={teamMembers.length}>
-          {teamMembers.map((member, index) => (
-            <TeamCard
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <TeamImageContainer>
-                <TeamImage src={member.image} alt={member.name} />
-              </TeamImageContainer>
-              <TeamName>{member.name}</TeamName>
-              <TeamRole>{member.role}</TeamRole>
-              <TeamBio>{member.bio}</TeamBio>
-            </TeamCard>
-          ))}
-        </TeamGrid>
-      </Container>
-    </SectionContainer>
-  );
-};
-
-// Values Section Component
 const ValuesSection = () => {
   const values = [
-    {
-      title: 'Innovation',
-      description: 'We constantly push the boundaries of what AI can do, pioneering new approaches that redefine business operations.',
-      icon: '🚀'
-    },
-    {
-      title: 'Excellence',
-      description: 'We are committed to delivering AI workers that exceed expectations in reliability, intelligence, and performance.',
-      icon: '✨'
-    },
-    {
-      title: 'Human-Centered',
-      description: 'Our AI enhances human potential rather than replacing it, working alongside people to create better outcomes.',
-      icon: '🤝'
-    },
-    {
-      title: 'Integrity',
-      description: 'We build trustworthy AI with strong ethical foundations, transparency, and a commitment to data privacy.',
-      icon: '🛡️'
-    }
+    { title: 'Precision', description: 'We build systems that perform reliably under real-world conditions. Edge cases are engineered for, not swept aside.', icon: '🚀' },
+    { title: 'Craftsmanship', description: 'Every deployment is built from the ground up for its specific industry. No templates. No configuration that passes for engineering.', icon: '✨' },
+    { title: 'Leverage', description: 'We build systems that extend what people can do — not replace the judgment and relationships that run the business.', icon: '🤝' },
+    { title: 'Transparency', description: 'We operate with full clarity on scope, timelines, and performance. Nothing obscured, nothing oversold.', icon: '🛡️' },
   ];
 
   return (
     <SectionContainer>
-      <BackgroundSVG>
-        <img src="/assets/hero-background1.svg" alt="" aria-hidden="true" />
-      </BackgroundSVG>
-      
       <Container>
-        <SectionHeading>Our Core Values</SectionHeading>
-        
+        <SectionLabel>Values</SectionLabel>
+        <SectionHeading>How we operate</SectionHeading>
         <ValuesGrid>
           {values.map((value, index) => (
             <ValueCard
@@ -238,55 +154,8 @@ const ValuesSection = () => {
   );
 };
 
-// Styled Components
-const SectionContainer = styled.section`
-  padding: 5rem 0;
-  position: relative;
-  overflow: hidden;
-  
-  @media (max-width: 768px) {
-    padding: 3rem 0;
-  }
-`;
+// ── Styled Components ──────────────────────────────────────────────────────────
 
-const BackgroundSVG = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  
-  @media (max-width: 768px) {
-    padding: 0 1.5rem;
-  }
-`;
-
-const SectionHeading = styled.h2`
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  color: #000;
-  
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-`;
-
-// Hero Styles
 const HeroContainer = styled.section`
   min-height: 80vh;
   display: flex;
@@ -296,26 +165,37 @@ const HeroContainer = styled.section`
   position: relative;
   overflow: hidden;
   padding-top: 80px;
-  
+
   @media (max-width: 768px) {
     padding-top: 100px;
     min-height: 60vh;
   }
 `;
 
-const HeroBackground = styled.div`
+const OrbHeroOne = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  width: 700px;
+  height: 700px;
+  top: -250px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.13) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
+`;
+
+const OrbHeroTwo = styled.div`
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  bottom: -200px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  z-index: 0;
 `;
 
 const HeroContent = styled.div`
@@ -323,7 +203,7 @@ const HeroContent = styled.div`
   padding: 0 2rem;
   position: relative;
   z-index: 2;
-  
+
   @media (max-width: 768px) {
     padding: 0 1.5rem;
   }
@@ -331,10 +211,14 @@ const HeroContent = styled.div`
 
 const HeroHeading = styled(motion.h1)`
   font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   margin-bottom: 1.5rem;
-  
+  color: #fafafa;
+
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
   }
@@ -343,8 +227,9 @@ const HeroHeading = styled(motion.h1)`
 const HeroSubheading = styled(motion.p)`
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  line-height: 1.6;
-  
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.65);
+
   @media (max-width: 768px) {
     font-size: 1rem;
     margin-bottom: 1.5rem;
@@ -356,7 +241,7 @@ const ButtonContainer = styled(motion.div)`
   gap: 1rem;
   justify-content: center;
   margin-top: 2rem;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.75rem;
@@ -364,29 +249,61 @@ const ButtonContainer = styled(motion.div)`
   }
 `;
 
-// Timeline Styles
+const SectionContainer = styled.section`
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+  }
+`;
+
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
+`;
+
+const SectionHeading = styled.h2`
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #fafafa 20%, #c4b5fd 70%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+`;
+
 const TimelineContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   max-width: 800px;
   margin: 0 auto;
-  
+
   @media (max-width: 768px) {
     gap: 1.5rem;
   }
 `;
 
 const TimelineCard = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  position: relative;
-  
+
   @media (max-width: 768px) {
     padding: 1.5rem;
   }
@@ -394,112 +311,44 @@ const TimelineCard = styled(motion.div)`
 
 const TimelineYear = styled.div`
   display: inline-block;
-  background: rgba(108, 99, 255, 0.1);
-  color: #6C63FF;
-  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(250, 250, 250, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 1rem;
   border-radius: 30px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.9rem;
   margin-bottom: 1rem;
 `;
 
 const TimelineTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-  }
-`;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+  color: #fafafa;
 
-const TimelineDescription = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.6;
-  
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-`;
-
-// Team Styles
-const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-  justify-items: center;
-  
-  ${props => props.itemCount === 1 && `
-    grid-template-columns: 1fr;
-    max-width: 350px;
-    margin: 0 auto;
-  `}
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-`;
-
-const TeamCard = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  text-align: center;
-  
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
-`;
-
-const TeamImageContainer = styled.div`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 1.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  
-  @media (max-width: 768px) {
-    width: 120px;
-    height: 120px;
-  }
-`;
-
-const TeamImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const TeamName = styled.h3`
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-  
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
 `;
 
-const TeamRole = styled.div`
-  color: #6C63FF;
-  font-weight: 500;
-  margin-bottom: 1rem;
+const TimelineDescription = styled.p`
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(250, 250, 250, 0.55);
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
 `;
 
-const TeamBio = styled.p`
-  font-size: 0.95rem;
-  line-height: 1.6;
-`;
 
-// Values Styles
 const ValuesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -507,14 +356,11 @@ const ValuesGrid = styled.div`
 `;
 
 const ValueCard = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  
+
   @media (max-width: 768px) {
     padding: 1.5rem;
   }
@@ -526,17 +372,17 @@ const ValueIcon = styled.div`
 `;
 
 const ValueTitle = styled.h3`
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fafafa;
+  margin-bottom: 0.75rem;
 `;
 
 const ValueDescription = styled.p`
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(250, 250, 250, 0.55);
 `;
 
-export default AboutUsPage; 
+export default AboutUsPage;

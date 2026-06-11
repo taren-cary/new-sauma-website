@@ -2,12 +2,20 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Button from '../common/Button';
+import TextType from '../common/TextType';
 
 const Hero = () => {
   return (
     <HeroContainer>
       <HeroBackground>
-        <img src="/assets/hero-background1.svg" alt="Background" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="/assets/Sauma%20Website%20Homepage%20Hero%20Video.mp4"
+        />
+        <VideoOverlay />
       </HeroBackground>
 
       <HeroContent>
@@ -16,7 +24,23 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Autonomous AI systems. Built for your industry.
+          Autonomous AI systems.<br />
+          Built for{' '}
+          <TextType
+            as="span"
+            text={["real estate.", "medspas.", "mobile detailing."]}
+            typingSpeed={65}
+            deletingSpeed={35}
+            pauseDuration={2200}
+            showCursor={true}
+            cursorCharacter="|"
+            style={{
+              background: 'linear-gradient(135deg, #c4b5fd 0%, #818cf8 50%, #6C63FF 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          />
         </HeroHeading>
 
         <HeroSubheading
@@ -24,7 +48,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          We design and deploy complete AI infrastructure that handles lead capture, follow-up, appointment booking, and reporting — running 24 hours a day, tailored to the specific way your business operates.
+          We build the infrastructure layer that handles the revenue-critical operations your business depends on — lead response, appointment booking, follow-up, and CRM — running continuously, without supervision.
         </HeroSubheading>
 
         <ButtonContainer
@@ -46,13 +70,20 @@ const HeroBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
 
-  img {
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
+`;
+
+const VideoOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
 `;
 
 const HeroContainer = styled.section`
@@ -67,13 +98,13 @@ const HeroContainer = styled.section`
   padding-top: 80px;
 
   @media (max-width: 768px) {
-    padding-top: 100px;
+    padding-top: 60px;
     padding-bottom: 40px;
   }
 `;
 
 const HeroContent = styled.div`
-  max-width: 820px;
+  max-width: 860px;
   padding: 0 2rem;
   position: relative;
   z-index: 2;
@@ -84,12 +115,15 @@ const HeroContent = styled.div`
 `;
 
 const HeroHeading = styled(motion.h1)`
-  font-size: 4rem;
+  font-size: 4.75rem;
+  font-weight: 800;
   margin-bottom: 1.5rem;
-  line-height: 1.15;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #fff;
 
   @media (max-width: 768px) {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
   }
@@ -99,7 +133,7 @@ const HeroSubheading = styled(motion.p)`
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
   line-height: 1.7;
-  opacity: 0.85;
+  color: rgba(255, 255, 255, 0.85);
 
   @media (max-width: 768px) {
     font-size: 1rem;

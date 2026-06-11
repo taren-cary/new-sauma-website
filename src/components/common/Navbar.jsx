@@ -31,7 +31,6 @@ const Navbar = () => {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -50,12 +49,12 @@ const Navbar = () => {
   return (
     <>
       <NavContainer scrolled={scrolled} style={{
-        background: scrolled ? 'rgba(255, 255, 255, 0.8)' : 'transparent',
-        boxShadow: scrolled ? '0 8px 32px 0 rgba(31, 38, 135, 0.17)' : 'none'
+        background: scrolled ? 'rgba(9, 9, 11, 0.85)' : 'transparent',
+        boxShadow: scrolled ? '0 1px 0 rgba(255,255,255,0.08)' : 'none'
       }}>
         <NavContent>
           <Link to="/">
-            <Logo src="/assets/sauma_logo.png" alt="Sauma Logo" />
+            <Logo src="/assets/Sauma Website Logo White.svg" alt="Sauma Logo" />
           </Link>
 
           <MobileMenuButton onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
@@ -65,7 +64,6 @@ const Navbar = () => {
           <NavLinks isOpen={isOpen}>
             <NavLink to="/" onClick={closeMenu}>Home</NavLink>
 
-            {/* Desktop dropdown — div has zero browser defaults, aligns like NavLink */}
             <DropdownTrigger
               ref={dropdownRef}
               role="button"
@@ -85,7 +83,6 @@ const Navbar = () => {
               </DropdownMenu>
             </DropdownTrigger>
 
-            {/* Mobile expandable */}
             <MobileIndustriesWrapper>
               <MobileIndustriesTrigger onClick={() => setMobileIndustriesOpen((v) => !v)}>
                 Industries <ChevronDown size={14} style={{ transform: mobileIndustriesOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
@@ -93,7 +90,7 @@ const Navbar = () => {
               {mobileIndustriesOpen && (
                 <MobileIndustriesList>
                   {INDUSTRIES.map((ind) => (
-                    <NavLink key={ind.path} to={ind.path} onClick={closeMenu} style={{ fontSize: '0.95rem', paddingLeft: '1rem', color: '#555' }}>
+                    <NavLink key={ind.path} to={ind.path} onClick={closeMenu} style={{ fontSize: '0.95rem', paddingLeft: '1rem', color: 'rgba(250,250,250,0.6)' }}>
                       {ind.name}
                     </NavLink>
                   ))}
@@ -102,7 +99,7 @@ const Navbar = () => {
             </MobileIndustriesWrapper>
 
             <NavLink to="/about" onClick={closeMenu}>About Us</NavLink>
-            <NavLink to="/book-demo" onClick={closeMenu}>Book a Demo</NavLink>
+            <BookDemoButton to="/book-demo" onClick={closeMenu}>Book a Demo</BookDemoButton>
           </NavLinks>
         </NavContent>
       </NavContainer>
@@ -112,8 +109,6 @@ const Navbar = () => {
   );
 };
 
-// ── Styled Components ──────────────────────────────────────────────────────────
-
 const NavContainer = styled.header`
   position: fixed;
   top: 0;
@@ -121,8 +116,8 @@ const NavContainer = styled.header`
   width: 100%;
   z-index: 1000;
   transition: all 0.3s ease;
-  backdrop-filter: ${props => props.scrolled ? 'blur(10px)' : 'none'};
-  -webkit-backdrop-filter: ${props => props.scrolled ? 'blur(10px)' : 'none'};
+  backdrop-filter: ${props => props.scrolled ? 'blur(12px)' : 'none'};
+  -webkit-backdrop-filter: ${props => props.scrolled ? 'blur(12px)' : 'none'};
 `;
 
 const NavContent = styled.div`
@@ -139,10 +134,15 @@ const NavContent = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 40px;
+  height: 28px;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   @media (max-width: 768px) {
-    height: 32px;
+    height: 24px;
     margin-top: 0.1rem;
   }
 `;
@@ -153,7 +153,7 @@ const MobileMenuButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
+  color: #fafafa;
   padding: 0;
   z-index: 1001;
 
@@ -178,28 +178,23 @@ const NavLinks = styled.nav`
     right: 0;
     height: 100vh;
     width: 260px;
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(9, 9, 11, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255,255,255,0.08);
     flex-direction: column;
     align-items: flex-start;
     padding: 5rem 2rem 2rem;
     gap: 1.5rem;
     transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(100%)'};
     transition: transform 0.3s ease;
-    box-shadow: ${({ isOpen }) => isOpen ? '-5px 0 15px rgba(0,0,0,0.1)' : 'none'};
     z-index: 1000;
-
-    /* hide the desktop dropdown trigger on mobile */
-    & > div[data-desktop] {
-      display: none;
-    }
   }
 `;
 
 const NavLink = styled(Link)`
   font-weight: 500;
-  color: #333;
+  color: #fafafa;
   position: relative;
   transition: color 0.3s ease;
   font-size: 1rem;
@@ -224,8 +219,6 @@ const NavLink = styled(Link)`
   }
 `;
 
-// ── Desktop Dropdown ──────────────────────────────────────────────────────────
-
 const DropdownTrigger = styled.div`
   position: relative;
   display: inline-flex;
@@ -234,7 +227,7 @@ const DropdownTrigger = styled.div`
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.5;
-  color: #333;
+  color: #fafafa;
   cursor: pointer;
   user-select: none;
   transition: color 0.2s;
@@ -257,10 +250,10 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: calc(100% + 14px);
   left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
+  background: #18181b;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   padding: 0.5rem;
   min-width: 180px;
   opacity: ${({ isOpen }) => isOpen ? 1 : 0};
@@ -279,7 +272,7 @@ const DropdownMenu = styled.div`
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid #fff;
+    border-bottom: 6px solid #18181b;
   }
 `;
 
@@ -289,16 +282,14 @@ const DropdownItem = styled(Link)`
   border-radius: 8px;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #333;
+  color: #fafafa;
   transition: background 0.15s, color 0.15s;
 
   &:hover {
-    background: #f4f3ff;
+    background: rgba(108, 99, 255, 0.15);
     color: ${props => props.theme.colors.primary};
   }
 `;
-
-// ── Mobile Industries ─────────────────────────────────────────────────────────
 
 const MobileIndustriesWrapper = styled.div`
   display: none;
@@ -319,7 +310,7 @@ const MobileIndustriesTrigger = styled.button`
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
-  color: #333;
+  color: #fafafa;
   cursor: pointer;
   padding: 0;
 `;
@@ -330,10 +321,30 @@ const MobileIndustriesList = styled.div`
   gap: 0.75rem;
   margin-top: 0.75rem;
   padding-left: 0.5rem;
-  border-left: 2px solid #e0e0ff;
+  border-left: 2px solid rgba(108, 99, 255, 0.4);
 `;
 
-// ── Overlay ───────────────────────────────────────────────────────────────────
+const BookDemoButton = styled(Link)`
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(250, 250, 250, 0.9);
+  padding: 0.45rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fafafa;
+  }
+
+  @media (max-width: 768px) {
+    align-self: flex-start;
+  }
+`;
 
 const Overlay = styled.div`
   position: fixed;
@@ -341,7 +352,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   opacity: ${({ isOpen }) => isOpen ? 1 : 0};
   visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
   transition: opacity 0.3s ease, visibility 0.3s ease;

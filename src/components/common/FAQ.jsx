@@ -1,105 +1,118 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'react-feather';
 
-const FAQContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 0;
-`;
-
-const FAQItem = styled.div`
-  ${props => props.theme.glassmorphism};
-  margin-bottom: 1rem;
-  overflow: hidden;
-`;
-
-const FAQQuestion = styled.button`
-  width: 100%;
-  text-align: left;
-  padding: 1.5rem;
-  background: transparent;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const FAQAnswer = styled(motion.div)`
-  padding: 0 1.5rem 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-`;
-
-const Icon = styled.span`
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  transform: ${props => props.isOpen ? 'rotate(45deg)' : 'rotate(0)'};
-`;
-
-// Sample FAQ items - replace with actual FAQs
 const faqItems = [
   {
     id: 1,
     question: "What is Sauma AI?",
-    answer: "Sauma AI is a platform that provides AI-powered workforce solutions for businesses. We offer AI workers like Mercury, our AI Sales Development Receptionist, that can handle tasks autonomously with human-like emotion."
+    answer: "Sauma builds autonomous AI systems that handle the revenue-critical operations of running a business — lead response, appointment booking, follow-up, and CRM — running continuously, without supervision."
   },
   {
     id: 2,
     question: "How does Mercury work?",
-    answer: "Mercury is an AI receptionist that can answer inbound calls, book appointments, gather information, and make deeper connections with your leads. It works 24/7 and integrates with your existing systems to provide a seamless experience."
+    answer: "Mercury is our AI system for inbound and outbound operations. It responds to leads within seconds, qualifies them through natural conversation, books appointments directly on your calendar, and logs everything to your CRM — 24/7, without staff involvement."
   },
   {
     id: 3,
     question: "What platforms do you integrate with?",
-    answer: "We integrate with a wide range of CRM systems, calendar applications, and communication platforms to ensure Mercury fits seamlessly into your existing workflow."
+    answer: "We integrate with HubSpot, GoHighLevel, Google Calendar, and a wide range of CRM and scheduling platforms. Every deployment is configured to fit your existing stack — not the other way around."
   },
   {
     id: 4,
-    question: "How much can I save by using Sauma AI?",
-    answer: "Our clients typically save thousands in lead acquisition costs and generate significant additional revenue through improved appointment booking rates. The exact savings depend on your business size and needs."
+    question: "How much does it cost?",
+    answer: "Pricing depends on the scope of the system and the industry. Book a demo and we'll walk you through exactly what we'd build, how it integrates, and what the investment looks like."
   },
   {
     id: 5,
-    question: "Is there a setup fee?",
-    answer: "We offer flexible pricing plans with transparent costs. Contact our sales team for detailed information about setup fees and monthly subscriptions tailored to your business needs."
+    question: "How long does deployment take?",
+    answer: "Most systems go live within a week of signing. We handle the full build — configuration, integration, and testing — so your team doesn't need to do anything technical."
   }
 ];
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const toggle = (index) => setOpenIndex(openIndex === index ? null : index);
 
   return (
-    <FAQContainer>
+    <Container>
       {faqItems.map((item, index) => (
-        <FAQItem key={item.id}>
-          <FAQQuestion onClick={() => toggleFAQ(index)}>
-            {item.question}
-            <Icon isOpen={openIndex === index}>+</Icon>
-          </FAQQuestion>
-          <AnimatePresence>
+        <Item key={item.id} isFirst={index === 0}>
+          <Question onClick={() => toggle(index)}>
+            <span>{item.question}</span>
+            <Chevron isOpen={openIndex === index} size={18} />
+          </Question>
+          <AnimatePresence initial={false}>
             {openIndex === index && (
-              <FAQAnswer
+              <Answer
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
               >
-                {item.answer}
-              </FAQAnswer>
+                <AnswerInner>{item.answer}</AnswerInner>
+              </Answer>
             )}
           </AnimatePresence>
-        </FAQItem>
+        </Item>
       ))}
-    </FAQContainer>
+    </Container>
   );
 };
 
-export default FAQ; 
+const Container = styled.div`
+  max-width: 720px;
+  margin: 0 auto;
+`;
+
+const Item = styled.div`
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+`;
+
+const Question = styled.button`
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fafafa;
+  transition: color 0.2s;
+
+  &:hover {
+    color: rgba(250, 250, 250, 0.7);
+  }
+`;
+
+const Chevron = styled(ChevronDown)`
+  flex-shrink: 0;
+  color: rgba(250, 250, 250, 0.4);
+  transition: transform 0.25s ease;
+  transform: ${({ isOpen }) => isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
+`;
+
+const Answer = styled(motion.div)`
+  overflow: hidden;
+`;
+
+const AnswerInner = styled.div`
+  padding-bottom: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.55);
+`;
+
+export default FAQ;

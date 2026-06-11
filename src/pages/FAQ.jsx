@@ -47,12 +47,12 @@ const FAQPage = () => {
         <SearchSection searchQuery={searchQuery} onSearchChange={handleSearchChange} />
         <FAQListSection faqs={filteredFAQs} />
         
-        <CTASection 
-          heading="Still Have Questions?" 
+        <CTASection
+          heading="Still Have Questions?"
           text="Our team is ready to help you find the right AI solutions for your business needs."
           buttonText="Contact Us"
           buttonLink="/contact"
-          showLogo={false}
+          showBeams
         />
       </main>
       
