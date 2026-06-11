@@ -136,6 +136,7 @@ const NavContent = styled.div`
 const Logo = styled.img`
   height: 28px;
   transition: opacity 0.3s ease;
+  mix-blend-mode: screen;
 
   &:hover {
     opacity: 0.8;

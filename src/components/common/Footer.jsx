@@ -51,6 +51,7 @@ const FooterContent = styled.div`
 const FooterLogo = styled.img`
   height: 26px;
   margin-bottom: 1rem;
+  mix-blend-mode: screen;
 `;
 
 const FooterAbout = styled.div`
