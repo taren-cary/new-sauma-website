@@ -19,6 +19,7 @@ const Hero = () => {
     video.playsInline = true;
 
     const tryPlay = () => video.play().catch(() => {});
+    video.addEventListener('canplay', tryPlay, { once: true });
     tryPlay();
 
     const onTouch = () => tryPlay();
