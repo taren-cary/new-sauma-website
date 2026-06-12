@@ -16,7 +16,13 @@ const Hero = () => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
-    video.play().catch(() => {});
+
+    const tryPlay = () => video.play().catch(() => {});
+    tryPlay();
+
+    const onTouch = () => tryPlay();
+    document.addEventListener('touchstart', onTouch, { once: true });
+    return () => document.removeEventListener('touchstart', onTouch);
   }, []);
 
   return (
