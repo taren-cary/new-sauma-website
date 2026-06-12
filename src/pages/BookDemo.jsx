@@ -678,7 +678,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <ButtonContainer>
-              <Button as="a" href="tel:+1-575-651-2233">Talk To Mercury <PhoneIcon /></Button>
+              <Button as="a" href="tel:+1-575-651-2233">Call Us <PhoneIcon /></Button>
             </ButtonContainer>
           </motion.div>
         </LeftColumn>
