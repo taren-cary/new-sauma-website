@@ -194,17 +194,12 @@ const CardTop = styled.div`
 `;
 
 const NumberTag = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: -0.04em;
   color: rgba(250, 250, 250, 0.18);
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  z-index: 1;
 `;
 
 
@@ -224,20 +219,17 @@ const IndustryDesc = styled.p`
 `;
 
 const SymbolOverNumber = styled.div`
-  position: relative;
-  width: 64px;
-  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
 `;
 
 const PlatformSymbol = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   opacity: 0.9;
-  z-index: 2;
 `;
 
 const LearnMore = styled.div`
