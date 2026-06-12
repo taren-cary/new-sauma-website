@@ -16,6 +16,7 @@ const Hero = () => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
+    video.playsInline = true;
 
     const tryPlay = () => video.play().catch(() => {});
     tryPlay();
