@@ -1,160 +1,166 @@
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { Crosshair, Tool, TrendingUp, Shield } from 'react-feather';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import TestimonialSlider from '../components/common/TestimonialSlider';
 import CTASection from '../components/common/CTASection';
 import Button from '../components/common/Button';
-import TrustSection from '../components/home/TrustSection';
 import FadeInSection from '../components/common/FadeInSection';
 import SectionLabel from '../components/common/SectionLabel';
-import { Link } from 'react-router-dom';
 
-const AboutUsPage = () => {
-  return (
-    <>
-      <Helmet>
-        <title>About — Sauma AI</title>
-        <meta name="description" content="Sauma AI builds autonomous systems that handle the operational work of running a business — purpose-built for real estate, medspas, and mobile detailing." />
-      </Helmet>
+const VALUES = [
+  { icon: Crosshair, title: 'Precision', description: 'We build systems that perform under real-world conditions. Edge cases are engineered for, not swept aside. A system that fails 5% of the time isn\'t a system — it\'s a liability.' },
+  { icon: Tool, title: 'Craftsmanship', description: 'Every deployment is built from scratch for the specific business it serves. No templates configured to look like custom work. The difference shows immediately.' },
+  { icon: TrendingUp, title: 'Leverage', description: 'We build systems that extend what people can do — not replace the judgment, relationships, and decisions that actually run the business. The goal is leverage, not substitution.' },
+  { icon: Shield, title: 'Accountability', description: 'We operate with full clarity on scope, timelines, and outcomes. Nothing is obscured, nothing is oversold. If a system isn\'t performing, we say so and fix it.' },
+];
 
-      <Navbar />
+const THESIS = [
+  { number: '01', statement: 'Most operational work in a business can be automated completely — not assisted, not partially. The bar most tools set is too low.' },
+  { number: '02', statement: 'General-purpose AI tools don\'t solve operational problems. Purpose-built systems do. Configuration isn\'t engineering.' },
+  { number: '03', statement: 'The businesses that win this decade will be those that separate human judgment from administrative execution — and act on that separation now.' },
+  { number: '04', statement: 'Autonomous AI systems aren\'t a feature or a workflow add-on. They\'re a new category of business infrastructure — and they should be built like one.' },
+];
 
-      <main>
-        <HeroSection />
+const AboutUsPage = () => (
+  <>
+    <Helmet>
+      <title>About — Sauma AI</title>
+      <meta name="description" content="Sauma builds autonomous AI infrastructure — Dodeca for client-facing operations and Icosa for internal systems — deployed from scratch for each business we work with." />
+    </Helmet>
 
-        <FadeInSection><TrustSection /></FadeInSection>
-        <FadeInSection><StorySection /></FadeInSection>
-        <FadeInSection><ValuesSection /></FadeInSection>
+    <Navbar />
 
-        <FadeInSection>
-          <SectionContainer>
-            <Container>
-              <SectionLabel>Outcomes</SectionLabel>
-        <SectionHeading>What our clients say</SectionHeading>
-              <TestimonialSlider />
-            </Container>
-          </SectionContainer>
-        </FadeInSection>
+    <main>
+      <HeroSection />
+      <FadeInSection><MissionSection /></FadeInSection>
+      <FadeInSection><ThesisSection /></FadeInSection>
+      <FadeInSection><ValuesSection /></FadeInSection>
+      <FadeInSection>
+        <SectionContainer>
+          <Container>
+            <SectionLabel>Outcomes</SectionLabel>
+            <SectionHeading>What our clients say</SectionHeading>
+            <TestimonialSlider />
+          </Container>
+        </SectionContainer>
+      </FadeInSection>
+      <CTASection
+        heading="Work with Sauma."
+        text="If you're running a serious business and want to understand what autonomous operations could look like for your workflows, let's talk."
+        buttonText="Book a Demo"
+        buttonLink="/book-demo"
+        showBeams
+      />
+    </main>
 
-        <CTASection
-          heading="Work with Sauma."
-          text="If you're running a serious business and want to understand what autonomous operations could look like for your workflows, let's talk."
-          buttonText="Get In Touch"
-          buttonLink="/contact"
-          showBeams
-        />
-      </main>
+    <Footer />
+  </>
+);
 
-      <Footer />
-    </>
-  );
-};
+const HeroSection = () => (
+  <HeroContainer>
+    <OrbHeroOne />
+    <OrbHeroTwo />
+    <HeroContent>
+      <HeroHeading
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        We build the infrastructure layer that businesses run on.
+      </HeroHeading>
+      <HeroSubheading
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        Sauma designs and deploys autonomous AI systems that handle the operational and customer-facing work of running a business — completely, continuously, and without supervision.
+      </HeroSubheading>
+      <ButtonContainer
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <Button as={Link} to="/dodeca" variant="outline">Explore Dodeca</Button>
+        <Button as={Link} to="/icosa" variant="outline">Explore Icosa</Button>
+      </ButtonContainer>
+    </HeroContent>
+  </HeroContainer>
+);
 
-const HeroSection = () => {
-  return (
-    <HeroContainer>
-      <OrbHeroOne />
-      <OrbHeroTwo />
-      <HeroContent>
-        <HeroHeading
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          We build the systems businesses run on.
-        </HeroHeading>
+const MissionSection = () => (
+  <SectionContainer>
+    <Container narrow>
+      <SectionLabel>Mission</SectionLabel>
+      <SectionHeading>Why we exist</SectionHeading>
+      <MissionBody>
+        <MissionParagraph>
+          Most businesses spend enormous operational capacity on work that doesn't require human judgment — answering inquiries, booking appointments, updating records, sending follow-ups, generating reports. This isn't a staffing problem. It's an infrastructure problem.
+        </MissionParagraph>
+        <MissionParagraph>
+          Sauma was built to solve it. We design and deploy two autonomous systems: Dodeca, which handles everything your customers interact with, and Icosa, which handles everything your team depends on internally. Both are built from scratch for each client. Neither is configured from a template.
+        </MissionParagraph>
+        <MissionParagraph>
+          The result is a business that operates with the leverage of a much larger team — without the overhead, the inconsistency, or the dependency on people to execute repeatable work.
+        </MissionParagraph>
+      </MissionBody>
+    </Container>
+  </SectionContainer>
+);
 
-        <HeroSubheading
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          Sauma was founded to do one thing: build autonomous AI systems that handle the operational work of running a business, so the people behind it can focus on what only they can do.
-        </HeroSubheading>
+const ThesisSection = () => (
+  <SectionContainer>
+    <Container>
+      <SectionLabel>Thesis</SectionLabel>
+      <SectionHeading>What we believe</SectionHeading>
+      <ThesisGrid>
+        {THESIS.map((item, i) => (
+          <ThesisCard
+            key={item.number}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            viewport={{ once: true }}
+          >
+            <ThesisNumber>{item.number}</ThesisNumber>
+            <ThesisStatement>{item.statement}</ThesisStatement>
+          </ThesisCard>
+        ))}
+      </ThesisGrid>
+    </Container>
+  </SectionContainer>
+);
 
-        <ButtonContainer
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <Button as={Link} to="/industries/real-estate">View our systems</Button>
-          <Button as={Link} to="/book-demo">Book a Demo</Button>
-        </ButtonContainer>
-      </HeroContent>
-    </HeroContainer>
-  );
-};
-
-const StorySection = () => {
-  const milestones = [
-    { year: '2022', title: 'The founding', description: 'Sauma is incorporated with a single thesis: the operational overhead of running a business is a solvable problem — with the right autonomous systems.' },
-    { year: '2023', title: 'First system deployed', description: 'Mercury goes live — handling inbound calls, lead qualification, and appointment booking for real businesses in real industries.' },
-    { year: '2024', title: 'Expanding across industries', description: 'Purpose-built systems deployed across real estate, medspas, and mobile detailing. Each engineered from the ground up for its industry.' },
-    { year: '2025', title: 'Building what\'s next', description: 'Expanding the system portfolio, deepening integrations, and building the infrastructure layer that growing businesses will run on.' },
-  ];
-
-  return (
-    <SectionContainer>
-      <Container>
-        <SectionLabel>Trajectory</SectionLabel>
-        <SectionHeading>Our trajectory</SectionHeading>
-        <TimelineContainer>
-          {milestones.map((milestone, index) => (
-            <TimelineCard
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <TimelineYear>{milestone.year}</TimelineYear>
-              <TimelineTitle>{milestone.title}</TimelineTitle>
-              <TimelineDescription>{milestone.description}</TimelineDescription>
-            </TimelineCard>
-          ))}
-        </TimelineContainer>
-      </Container>
-    </SectionContainer>
-  );
-};
-
-
-const ValuesSection = () => {
-  const values = [
-    { title: 'Precision', description: 'We build systems that perform reliably under real-world conditions. Edge cases are engineered for, not swept aside.', icon: '🚀' },
-    { title: 'Craftsmanship', description: 'Every deployment is built from the ground up for its specific industry. No templates. No configuration that passes for engineering.', icon: '✨' },
-    { title: 'Leverage', description: 'We build systems that extend what people can do — not replace the judgment and relationships that run the business.', icon: '🤝' },
-    { title: 'Transparency', description: 'We operate with full clarity on scope, timelines, and performance. Nothing obscured, nothing oversold.', icon: '🛡️' },
-  ];
-
-  return (
-    <SectionContainer>
-      <Container>
-        <SectionLabel>Values</SectionLabel>
-        <SectionHeading>How we operate</SectionHeading>
-        <ValuesGrid>
-          {values.map((value, index) => (
+const ValuesSection = () => (
+  <SectionContainer>
+    <Container>
+      <SectionLabel>Values</SectionLabel>
+      <SectionHeading>How we operate</SectionHeading>
+      <ValuesGrid>
+        {VALUES.map((value, i) => {
+          const Icon = value.icon;
+          return (
             <ValueCard
-              key={index}
+              key={value.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
             >
-              <ValueIcon>{value.icon}</ValueIcon>
+              <ValueIconWrapper><Icon size={22} /></ValueIconWrapper>
               <ValueTitle>{value.title}</ValueTitle>
               <ValueDescription>{value.description}</ValueDescription>
             </ValueCard>
-          ))}
-        </ValuesGrid>
-      </Container>
-    </SectionContainer>
-  );
-};
-
-// ── Styled Components ──────────────────────────────────────────────────────────
+          );
+        })}
+      </ValuesGrid>
+    </Container>
+  </SectionContainer>
+);
 
 const HeroContainer = styled.section`
   min-height: 80vh;
@@ -164,11 +170,11 @@ const HeroContainer = styled.section`
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding-top: 80px;
+  padding: 120px 2rem 80px;
 
   @media (max-width: 768px) {
-    padding-top: 100px;
-    min-height: 60vh;
+    padding: 110px 1.5rem 60px;
+    min-height: auto;
   }
 `;
 
@@ -199,14 +205,9 @@ const OrbHeroTwo = styled.div`
 `;
 
 const HeroContent = styled.div`
-  max-width: 800px;
-  padding: 0 2rem;
+  max-width: 820px;
   position: relative;
   z-index: 2;
-
-  @media (max-width: 768px) {
-    padding: 0 1.5rem;
-  }
 `;
 
 const HeroHeading = styled(motion.h1)`
@@ -219,20 +220,18 @@ const HeroHeading = styled(motion.h1)`
 
   @media (max-width: 768px) {
     font-size: 2.4rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
   }
 `;
 
 const HeroSubheading = styled(motion.p)`
   font-size: 1.2rem;
-  margin-bottom: 2rem;
   line-height: 1.7;
   color: rgba(250, 250, 250, 0.65);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
 
   @media (max-width: 768px) {
     font-size: 1rem;
-    margin-bottom: 1.5rem;
   }
 `;
 
@@ -240,119 +239,94 @@ const ButtonContainer = styled(motion.div)`
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-top: 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: -1.5rem;
   }
 `;
 
 const SectionContainer = styled.section`
   padding: 5rem 0;
-  position: relative;
-  overflow: hidden;
 
-  @media (max-width: 768px) {
-    padding: 3rem 0;
-  }
+  @media (max-width: 768px) { padding: 3.5rem 0; }
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: ${({ narrow }) => narrow ? '720px' : '1100px'};
   margin: 0 auto;
   padding: 0 2rem;
 
-  @media (max-width: 768px) {
-    padding: 0 1.5rem;
-  }
+  @media (max-width: 768px) { padding: 0 1.5rem; }
 `;
 
 const SectionHeading = styled.h2`
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   background: linear-gradient(135deg, #fafafa 20%, #c4b5fd 70%, #818cf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
+  @media (max-width: 768px) { font-size: 1.7rem; }
 `;
 
-const TimelineContainer = styled.div`
+const MissionBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    gap: 1.5rem;
-  }
+  gap: 1.5rem;
 `;
 
-const TimelineCard = styled(motion.div)`
+const MissionParagraph = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(250, 250, 250, 0.65);
+  text-align: center;
+
+  @media (max-width: 768px) { font-size: 1rem; }
+`;
+
+const ThesisGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
+`;
+
+const ThesisCard = styled(motion.div)`
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 2rem;
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
 `;
 
-const TimelineYear = styled.div`
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(250, 250, 250, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.4rem 1rem;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 0.9rem;
+const ThesisNumber = styled.div`
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: rgba(250, 250, 250, 0.18);
   margin-bottom: 1rem;
+  line-height: 1;
 `;
 
-const TimelineTitle = styled.h3`
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.75rem;
-  color: #fafafa;
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
-`;
-
-const TimelineDescription = styled.p`
-  font-size: 1rem;
+const ThesisStatement = styled.p`
+  font-size: 1.05rem;
+  font-weight: 500;
   line-height: 1.65;
-  color: rgba(250, 250, 250, 0.55);
-
-  @media (max-width: 768px) {
-    font-size: 0.95rem;
-  }
+  color: rgba(250, 250, 250, 0.8);
+  letter-spacing: -0.01em;
 `;
-
 
 const ValuesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1.25rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
 `;
 
 const ValueCard = styled(motion.div)`
@@ -360,19 +334,24 @@ const ValueCard = styled(motion.div)`
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 2rem;
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
 `;
 
-const ValueIcon = styled.div`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+const ValueIconWrapper = styled.div`
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+
+  svg { color: rgba(250, 250, 250, 0.55); }
 `;
 
 const ValueTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: #fafafa;
@@ -380,8 +359,8 @@ const ValueTitle = styled.h3`
 `;
 
 const ValueDescription = styled.p`
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 0.92rem;
+  line-height: 1.7;
   color: rgba(250, 250, 250, 0.55);
 `;
 

@@ -153,16 +153,15 @@ const Footer = () => {
             <FooterLogo src="/assets/Sauma Website Logo White.svg" alt="Sauma Logo" />
           </Link>
           <FooterDescription>
-            Autonomous AI systems built for real estate, medspas, and mobile detailing businesses.
+            Autonomous AI infrastructure for businesses that want to operate at scale — without scaling headcount.
           </FooterDescription>
         </FooterAbout>
 
         <FooterColumn>
-          <FooterHeading>Industries</FooterHeading>
+          <FooterHeading>Platform</FooterHeading>
           <FooterLinks>
-            <FooterLink><Link to="/industries/real-estate">Real Estate</Link></FooterLink>
-            <FooterLink><Link to="/industries/medspas">Medspas</Link></FooterLink>
-            <FooterLink><Link to="/industries/mobile-detailing">Mobile Detailing</Link></FooterLink>
+            <FooterLink><Link to="/dodeca">Dodeca</Link></FooterLink>
+            <FooterLink><Link to="/icosa">Icosa</Link></FooterLink>
           </FooterLinks>
         </FooterColumn>
 
