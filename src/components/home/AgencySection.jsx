@@ -56,9 +56,11 @@ const AgencySection = () => {
                   edgeSensitivity={28}
                 >
                   <CardInner>
-                    <PlatformSymbol src={platform.symbol} alt={platform.name} />
                     <CardTop>
-                      <NumberTag>{platform.number}</NumberTag>
+                      <SymbolOverNumber>
+                        <NumberTag>{platform.number}</NumberTag>
+                        <PlatformSymbol src={platform.symbol} alt={platform.name} />
+                      </SymbolOverNumber>
                     </CardTop>
                     <IndustryName>{platform.name}</IndustryName>
                     <IndustryDesc>{platform.description}</IndustryDesc>
@@ -188,16 +190,21 @@ const CardTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 `;
 
 const NumberTag = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: -0.04em;
   color: rgba(250, 250, 250, 0.18);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  z-index: 1;
 `;
 
 
@@ -216,12 +223,21 @@ const IndustryDesc = styled.p`
   margin-bottom: 1.5rem;
 `;
 
-const PlatformSymbol = styled.img`
+const SymbolOverNumber = styled.div`
+  position: relative;
   width: 64px;
   height: 64px;
+`;
+
+const PlatformSymbol = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  margin-bottom: 1.5rem;
   opacity: 0.9;
+  z-index: 2;
 `;
 
 const LearnMore = styled.div`
