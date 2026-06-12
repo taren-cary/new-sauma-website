@@ -12,7 +12,7 @@ const CareersPage = () => {
     <>
       <Helmet>
         <title>Careers - Sauma AI</title>
-        <meta name="description" content="Join the Sauma AI team and be part of our mission to revolutionize business operations with AI workers. Explore commission opportunities." />
+        <meta name="description" content="Partner with Sauma AI and earn commission introducing businesses to Dodeca and Icosa — autonomous AI infrastructure that replaces operational overhead." />
       </Helmet>
       
       <Navbar />
@@ -44,7 +44,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Make Money With AI
+          Refer Businesses. Earn Commission.
         </HeroHeading>
         
         <HeroSubheading
@@ -52,7 +52,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Join our commission program and help businesses transform with AI workers while building your own income stream.
+          Introduce businesses to Dodeca and Icosa — Sauma's autonomous AI platforms — and earn commission on every deployment you bring in.
         </HeroSubheading>
         
         <ButtonContainer
@@ -87,10 +87,10 @@ const ProgramSection = () => {
         >
           <ProgramCardContent>
             <p>
-              At Sauma AI, we're looking for passionate individuals to help us expand our reach and bring our innovative AI workers to more businesses. Our commission program offers a lucrative opportunity for sales professionals, business consultants, and entrepreneurs.
+              We're looking for well-connected individuals — consultants, agency owners, and entrepreneurs — who work with SMB owners and can introduce them to Sauma. Every business you bring in that deploys Dodeca or Icosa earns you a commission, plus recurring revenue as long as they remain a client.
             </p>
             <p>
-              With our tiered commission structure, you can earn significant income while helping businesses transform their operations with cutting-edge AI technology.
+              With our tiered commission structure, your earning potential grows with every referral — and you don't need to close the deal yourself. You introduce, we handle the rest.
             </p>
             <h3>Commission Structure</h3>
             <CommissionTable>
@@ -161,9 +161,9 @@ const BenefitsSection = () => {
             <BenefitIcon>
               <Briefcase size={28} />
             </BenefitIcon>
-            <BenefitTitle>Cutting-Edge Product</BenefitTitle>
+            <BenefitTitle>A Product That Sells Itself</BenefitTitle>
             <BenefitDescription>
-              Represent innovative AI technology that provides real value and transforms how businesses operate.
+              Represent autonomous AI infrastructure — Dodeca and Icosa — that delivers measurable operational results from day one.
             </BenefitDescription>
           </BenefitCard>
           
@@ -176,9 +176,9 @@ const BenefitsSection = () => {
             <BenefitIcon>
               <TrendingUp size={28} />
             </BenefitIcon>
-            <BenefitTitle>Growth Opportunity</BenefitTitle>
+            <BenefitTitle>Unlimited Earning Potential</BenefitTitle>
             <BenefitDescription>
-              Join a rapidly expanding company in the booming AI sector with unlimited earning potential.
+              No cap on referrals. As your network grows and clients stay active, your recurring commission compounds.
             </BenefitDescription>
           </BenefitCard>
           
@@ -254,7 +254,7 @@ const ProcessSection = () => {
             <ProcessContent>
               <ProcessTitle>Onboarding</ProcessTitle>
               <ProcessDescription>
-                Complete our comprehensive training program to learn about our products, sales strategies, and tools.
+                We brief you on Dodeca, Icosa, and our deployment process so you can speak to what we build with confidence.
               </ProcessDescription>
             </ProcessContent>
           </ProcessStep>
@@ -267,9 +267,9 @@ const ProcessSection = () => {
           >
             <ProcessNumber>4</ProcessNumber>
             <ProcessContent>
-              <ProcessTitle>Start Selling</ProcessTitle>
+              <ProcessTitle>Start Referring</ProcessTitle>
               <ProcessDescription>
-                Begin promoting Sauma AI products with full support from our team, and earn commissions on every sale.
+                Make introductions within your network. We handle the demos, the build, and the deployment — you earn on every client that signs.
               </ProcessDescription>
             </ProcessContent>
           </ProcessStep>
