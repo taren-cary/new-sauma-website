@@ -7,27 +7,37 @@ const faqItems = [
   {
     id: 1,
     question: "What is Sauma AI?",
-    answer: "Sauma builds autonomous AI systems that handle the revenue-critical operations of running a business — lead response, appointment booking, follow-up, and CRM — running continuously, without supervision."
+    answer: "Sauma builds autonomous AI infrastructure for businesses — two systems, Dodeca and Icosa, that handle the operational and customer-facing work of running a business completely, continuously, and without supervision. Every deployment is built from scratch for the specific business we're working with."
   },
   {
     id: 2,
-    question: "How does Mercury work?",
-    answer: "Mercury is our AI system for inbound and outbound operations. It responds to leads within seconds, qualifies them through natural conversation, books appointments directly on your calendar, and logs everything to your CRM — 24/7, without staff involvement."
+    question: "What is Dodeca?",
+    answer: "Dodeca is Sauma's client-facing AI platform. It handles every interaction between your business and your customers — lead response, qualification, appointment booking, follow-up sequences, and voice calls — built around your specific channels and buyer journey."
   },
   {
     id: 3,
+    question: "What is Icosa?",
+    answer: "Icosa is Sauma's internal AI platform. It automates the operational work your team handles internally — CRM maintenance, workflow automation, reporting, document processing, and internal alerts — so your team focuses on judgment, not administration."
+  },
+  {
+    id: 4,
+    question: "Are your systems built from scratch or configured from templates?",
+    answer: "Built from scratch. Every Dodeca and Icosa deployment is engineered for the specific business we're working with — the workflows, the channels, the tools, and the edge cases. Configuration isn't engineering, and we don't sell pre-built templates."
+  },
+  {
+    id: 5,
     question: "What platforms do you integrate with?",
     answer: "We integrate with HubSpot, GoHighLevel, Google Calendar, and a wide range of CRM and scheduling platforms. Every deployment is configured to fit your existing stack — not the other way around."
   },
   {
-    id: 4,
+    id: 6,
     question: "How much does it cost?",
-    answer: "Pricing depends on the scope of the system and the industry. Book a demo and we'll walk you through exactly what we'd build, how it integrates, and what the investment looks like."
+    answer: "Pricing depends on the scope of the system and which platforms we're deploying. Book a demo and we'll walk you through exactly what we'd build and what the investment looks like for your business."
   },
   {
-    id: 5,
+    id: 7,
     question: "How long does deployment take?",
-    answer: "Most systems go live within a week of signing. We handle the full build — configuration, integration, and testing — so your team doesn't need to do anything technical."
+    answer: "Most systems go live within a week of signing. We handle the full build — architecture, integration, and testing — so your team doesn't need to do anything technical."
   }
 ];
 

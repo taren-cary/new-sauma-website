@@ -95,7 +95,7 @@ const CategorySection = ({ activeCategory, onCategoryChange }) => {
   const categories = [
     { id: 'all', name: 'All Questions' },
     { id: 'general', name: 'General' },
-    { id: 'ai-workers', name: 'AI Workers' },
+    { id: 'platform', name: 'Platform' },
     { id: 'pricing', name: 'Pricing' },
     { id: 'integration', name: 'Integration' }
   ];
@@ -204,91 +204,77 @@ const FAQListSection = ({ faqs }) => {
   );
 };
 
-// Sample FAQ Data
+// FAQ Data
 const faqData = [
   {
     id: '1',
     question: 'What is Sauma AI?',
-    answer: 'Sauma AI is a company that provides intelligent AI workers to help businesses automate tasks, improve efficiency, and scale operations. Our AI workers can handle a variety of functions like customer service, appointment scheduling, lead qualification, and more.',
+    answer: 'Sauma builds autonomous AI infrastructure for businesses — two systems, Dodeca and Icosa, that handle the operational and customer-facing work of running a business completely, continuously, and without supervision. Every deployment is built from scratch for the specific business we\'re working with.',
     category: 'general',
     relatedQuestions: ['2', '3']
   },
   {
     id: '2',
-    question: 'How do your AI workers differ from other AI solutions?',
-    answer: 'Our AI workers are designed to perform specific job functions with human-like capabilities. Unlike generic AI tools, our workers are specialized for particular roles, trained on industry-specific data, and can handle complex interactions autonomously. They integrate with your existing tools and continuously learn from interactions to improve over time.',
-    category: 'general',
-    relatedQuestions: ['1', '4']
+    question: 'What is Dodeca?',
+    answer: 'Dodeca is Sauma\'s client-facing AI platform. It handles every interaction between your business and your customers — lead response, qualification, appointment booking, follow-up sequences, and voice calls — built around your specific channels and buyer journey.',
+    category: 'platform',
+    relatedQuestions: ['3', '5']
   },
   {
     id: '3',
-    question: 'What types of AI workers do you offer?',
-    answer: 'We currently offer several specialized AI workers including: <ul><li>Mercury - AI receptionist and appointment scheduler</li><li>Apollo - AI sales development representative</li><li>Atlas - AI customer support specialist</li><li>Nova - AI content creator and marketer</li></ul> We\'re continually expanding our workforce with new specialized roles.',
-    category: 'ai-workers',
-    relatedQuestions: ['5', '6']
+    question: 'What is Icosa?',
+    answer: 'Icosa is Sauma\'s internal AI platform. It automates the operational work your team handles internally — CRM maintenance, workflow automation, reporting, document processing, and internal alerts — so your team focuses on judgment, not administration.',
+    category: 'platform',
+    relatedQuestions: ['2', '5']
   },
   {
     id: '4',
-    question: 'How much does it cost to hire an AI worker?',
-    answer: 'Our pricing varies based on the AI worker and your specific needs. Generally, our AI workers cost a fraction of what you would pay for a human employee performing the same role - typically starting at $997/month. This includes 24/7 availability, no benefits costs, no turnover, and continuous performance improvements. Contact us for a custom quote based on your requirements.',
-    category: 'pricing',
-    relatedQuestions: ['10', '11']
+    question: 'Are your systems built from scratch or configured from templates?',
+    answer: 'Built from scratch. Every Dodeca and Icosa deployment is engineered for the specific business we\'re working with — the workflows, the channels, the tools, and the edge cases. Configuration isn\'t engineering, and we don\'t sell pre-built templates.',
+    category: 'general',
+    relatedQuestions: ['1', '6']
   },
   {
     id: '5',
-    question: 'What can Mercury, your AI receptionist, do?',
-    answer: 'Mercury acts as a full-time receptionist for your business. It can: <ul><li>Answer calls and engage with customers</li><li>Schedule appointments and manage your calendar</li><li>Answer FAQs about your business</li><li>Qualify leads and collect important information</li><li>Follow up with customers</li><li>Integrate with your existing systems</li></ul>',
-    category: 'ai-workers',
-    relatedQuestions: ['3', '6']
+    question: 'What platforms do you integrate with?',
+    answer: 'We integrate with HubSpot, GoHighLevel, Google Calendar, and a wide range of CRM and scheduling platforms. Every deployment is configured to fit your existing stack — not the other way around.',
+    category: 'integration',
+    relatedQuestions: ['2', '3']
   },
   {
     id: '6',
-    question: 'How do I integrate AI workers with my existing systems?',
-    answer: 'Our AI workers are designed to integrate seamlessly with popular business tools and software. They work with calendar systems (Google Calendar, Outlook), CRMs (Salesforce, HubSpot), communication platforms (Slack, Teams), and many industry-specific tools. Our team will help set up the necessary integrations during onboarding, ensuring a smooth workflow with your existing systems.',
-    category: 'integration',
-    relatedQuestions: ['7', '8']
+    question: 'How long does deployment take?',
+    answer: 'Most systems go live within a week of signing. We handle the full build — architecture, integration, and testing — so your team doesn\'t need to do anything technical.',
+    category: 'general',
+    relatedQuestions: ['7', '4']
   },
   {
     id: '7',
-    question: 'Is my data secure with your AI workers?',
-    answer: 'Yes, we take data security very seriously. All data is encrypted both in transit and at rest. We comply with industry standards for data protection and privacy regulations. Our AI workers only access the information they need to perform their functions, and we don\'t use your data to train other systems without permission.',
-    category: 'general',
-    relatedQuestions: ['8', '9']
+    question: 'How much does it cost?',
+    answer: 'Pricing depends on the scope of the system and which platforms we\'re deploying. Book a demo and we\'ll walk you through exactly what we\'d build and what the investment looks like for your business.',
+    category: 'pricing',
+    relatedQuestions: ['6', '4']
   },
   {
     id: '8',
-    question: 'Do I need technical expertise to use your AI workers?',
-    answer: 'No technical expertise is required. We handle all the complex technical aspects of deployment and maintenance. Our onboarding process is designed to be straightforward, and we provide training for your team on how to interact with and get the most from your AI worker. Our support team is also available to help with any questions.',
+    question: 'Do I need technical expertise to work with Sauma?',
+    answer: 'No. We handle the full build — architecture, integrations, testing, and deployment. Your team doesn\'t touch anything technical. Once the system is live, it runs without involvement from your side.',
     category: 'general',
-    relatedQuestions: ['6', '10']
+    relatedQuestions: ['6', '4']
   },
   {
     id: '9',
-    question: 'What happens if the AI worker makes a mistake?',
-    answer: 'While our AI workers are highly accurate, they can occasionally make mistakes like any employee. We have monitoring systems in place to catch and correct errors quickly. If an issue arises, you can easily flag it for our team, and we\'ll address it promptly. Each interaction helps the AI learn and improve, reducing the likelihood of similar mistakes in the future.',
+    question: 'Is my business data secure?',
+    answer: 'Yes. All data is encrypted in transit and at rest. Our systems only access the information required to perform their function, and we don\'t use your business data to train models for other clients.',
     category: 'general',
-    relatedQuestions: ['7', '8']
+    relatedQuestions: ['5', '8']
   },
   {
     id: '10',
-    question: 'How long does it take to get started?',
-    answer: 'Most of our AI workers can be deployed within 1-2 weeks. The exact timeline depends on the complexity of your requirements and integrations. We\'ll work with you to gather necessary information, set up integrations, and train the AI on your specific business processes. Once deployed, the AI worker continues to learn and improve its performance over time.',
+    question: 'What kinds of businesses do you work with?',
+    answer: 'We work with SMBs across a wide range of industries — real estate, law, medspas, HVAC, roofing, dental, veterinary, hospitality, and more. If your business has repeatable customer-facing or internal workflows, Dodeca and Icosa can handle them.',
     category: 'general',
-    relatedQuestions: ['4', '11']
-  },
-  {
-    id: '11',
-    question: 'Do you offer a trial period?',
-    answer: 'Yes, we offer a 7-day risk-free trial for most of our AI workers. This allows you to experience the benefits firsthand and ensure it\'s the right fit for your business. During the trial, you\'ll have access to our support team to help optimize the setup for your specific needs.',
-    category: 'pricing',
-    relatedQuestions: ['4', '10']
-  },
-  {
-    id: '12',
-    question: 'Can AI workers handle industry-specific knowledge?',
-    answer: 'Absolutely. Our AI workers can be trained on industry-specific terminology, processes, and regulations. Whether you\'re in healthcare, real estate, legal services, or another specialized field, we can customize the AI worker to understand and operate within your industry\'s unique requirements.',
-    category: 'ai-workers',
-    relatedQuestions: ['3', '5']
+    relatedQuestions: ['1', '2']
   }
 ];
 
@@ -425,21 +411,21 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchIcon = styled.div`
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(250, 250, 250, 0.4);
   margin-right: 0.75rem;
 `;
 
 const SearchInput = styled.input`
   background: transparent;
   border: none;
-  color: inherit;
+  color: #fafafa;
   font-size: 1rem;
   padding: 0.75rem 0;
   width: 100%;
   outline: none;
-  
+
   &::placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(250, 250, 250, 0.35);
   }
 `;
 

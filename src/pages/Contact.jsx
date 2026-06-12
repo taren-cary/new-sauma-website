@@ -374,18 +374,18 @@ const FormInput = styled.input`
   background-color: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: #000;
+  color: #fafafa;
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
-  
+
   &:focus {
     outline: none;
     border-color: #6C63FF;
     box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
   }
-  
+
   &::placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(250, 250, 250, 0.35);
   }
 `;
 
@@ -396,20 +396,20 @@ const FormTextarea = styled.textarea`
   background-color: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: #000;
+  color: #fafafa;
   font-size: 1rem;
   resize: vertical;
   min-height: 120px;
   transition: border-color 0.3s, box-shadow 0.3s;
-  
+
   &:focus {
     outline: none;
     border-color: #6C63FF;
     box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
   }
-  
+
   &::placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(250, 250, 250, 0.35);
   }
 `;
 
@@ -476,7 +476,7 @@ const InfoContent = styled.div`
 
 const InfoLabel = styled.span`
   font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(250, 250, 250, 0.5);
   margin-bottom: 0.2rem;
 `;
 
@@ -484,7 +484,7 @@ const InfoValue = styled.span`
   font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
-  color: #000;
+  color: #fafafa;
   
   &:hover {
     color: #6C63FF;
@@ -506,7 +506,7 @@ const SocialLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
+  color: rgba(250, 250, 250, 0.7);
   background-color: rgba(255, 255, 255, 0.1);
   transition: background-color 0.3s, transform 0.3s;
   
