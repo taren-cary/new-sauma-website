@@ -202,6 +202,9 @@ const HeroContent = styled.div`
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const HeroSymbol = styled(motion.img)`
