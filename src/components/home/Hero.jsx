@@ -11,8 +11,11 @@ const Hero = () => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (window.matchMedia('(max-width: 768px)').matches) return;
-    video.src = '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    video.muted = true;
+    video.src = isMobile
+      ? '/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile%20Small.mp4'
+      : '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
     video.addEventListener('canplay', () => {
       video.play().catch(() => {});
     }, { once: true });
@@ -87,9 +90,6 @@ const HeroBackground = styled.div`
     display: block;
   }
 
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const VideoOverlay = styled.div`
