@@ -6,7 +6,7 @@ import Button from '../common/Button';
 import TextType from '../common/TextType';
 
 const videoSrc = window.matchMedia('(max-width: 768px)').matches
-  ? '/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile%20Small.mp4'
+  ? '/assets/sauma-website-homepage-hero-video-mobile-small_7qvNy3ut.mp4'
   : '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
 
 const Hero = () => {
