@@ -5,27 +5,24 @@ import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 import TextType from '../common/TextType';
 
+const videoSrc = window.matchMedia('(max-width: 768px)').matches
+  ? '/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile%20Small.mp4'
+  : '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
+
 const Hero = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     video.muted = true;
-    video.src = isMobile
-      ? '/assets/Sauma%20Website%20Homepage%20Hero%20Video%20Mobile%20Small.mp4'
-      : '/assets/Sauma%20Website%20Homepage%20Hero%20Video(1).mp4';
-    video.addEventListener('canplay', () => {
-      video.play().catch(() => {});
-    }, { once: true });
-    video.load();
+    video.play().catch(() => {});
   }, []);
 
   return (
     <HeroContainer>
       <HeroBackground>
-        <video ref={videoRef} autoPlay muted loop playsInline />
+        <video ref={videoRef} autoPlay muted loop playsInline preload="auto" src={videoSrc} />
         <VideoOverlay />
       </HeroBackground>
 
