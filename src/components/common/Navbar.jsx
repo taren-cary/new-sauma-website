@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ChevronDown } from 'react-feather';
 
-const INDUSTRIES = [
-  { name: 'Real Estate', path: '/industries/real-estate' },
-  { name: 'Medspas', path: '/industries/medspas' },
-  { name: 'Mobile Detailing', path: '/industries/mobile-detailing' },
+const PLATFORM = [
+  { name: 'Dodeca', path: '/dodeca' },
+  { name: 'Icosa', path: '/icosa' },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [industriesOpen, setIndustriesOpen] = useState(false);
-  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [platformOpen, setPlatformOpen] = useState(false);
+  const [mobilePlatformOpen, setMobilePlatformOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setIsOpen(false);
-    setMobileIndustriesOpen(false);
+    setMobilePlatformOpen(false);
   };
 
   return (
@@ -68,30 +67,30 @@ const Navbar = () => {
               ref={dropdownRef}
               role="button"
               tabIndex={0}
-              isOpen={industriesOpen}
-              onMouseEnter={() => setIndustriesOpen(true)}
-              onMouseLeave={() => setIndustriesOpen(false)}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIndustriesOpen(v => !v); }}
+              isOpen={platformOpen}
+              onMouseEnter={() => setPlatformOpen(true)}
+              onMouseLeave={() => setPlatformOpen(false)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setPlatformOpen(v => !v); }}
             >
-              Industries <ChevronDown size={14} />
-              <DropdownMenu isOpen={industriesOpen}>
-                {INDUSTRIES.map((ind) => (
-                  <DropdownItem key={ind.path} to={ind.path} onClick={() => setIndustriesOpen(false)}>
-                    {ind.name}
+              Platform <ChevronDown size={14} />
+              <DropdownMenu isOpen={platformOpen}>
+                {PLATFORM.map((item) => (
+                  <DropdownItem key={item.path} to={item.path} onClick={() => setPlatformOpen(false)}>
+                    {item.name}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </DropdownTrigger>
 
             <MobileIndustriesWrapper>
-              <MobileIndustriesTrigger onClick={() => setMobileIndustriesOpen((v) => !v)}>
-                Industries <ChevronDown size={14} style={{ transform: mobileIndustriesOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+              <MobileIndustriesTrigger onClick={() => setMobilePlatformOpen((v) => !v)}>
+                Platform <ChevronDown size={14} style={{ transform: mobilePlatformOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
               </MobileIndustriesTrigger>
-              {mobileIndustriesOpen && (
+              {mobilePlatformOpen && (
                 <MobileIndustriesList>
-                  {INDUSTRIES.map((ind) => (
-                    <NavLink key={ind.path} to={ind.path} onClick={closeMenu} style={{ fontSize: '0.95rem', paddingLeft: '1rem', color: 'rgba(250,250,250,0.6)' }}>
-                      {ind.name}
+                  {PLATFORM.map((item) => (
+                    <NavLink key={item.path} to={item.path} onClick={closeMenu} style={{ fontSize: '0.95rem', paddingLeft: '1rem', color: 'rgba(250,250,250,0.6)' }}>
+                      {item.name}
                     </NavLink>
                   ))}
                 </MobileIndustriesList>

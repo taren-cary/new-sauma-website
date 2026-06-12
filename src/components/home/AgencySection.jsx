@@ -5,30 +5,20 @@ import { ArrowRight } from 'react-feather';
 import BorderGlow from '../common/BorderGlow';
 import SectionLabel from '../common/SectionLabel';
 
-const INDUSTRIES = [
+const PLATFORMS = [
   {
     number: '01',
-    name: 'Real Estate',
-    path: '/industries/real-estate',
+    name: 'Dodeca',
+    path: '/dodeca',
     description:
-      'Autonomous lead qualification, showing scheduling, multi-channel follow-up, and CRM operations — running continuously without your involvement.',
-    status: 'live',
+      'The client-facing layer. Voice agents, lead response, booking systems, and customer follow-up — built to handle every interaction your business depends on, continuously and without supervision.',
   },
   {
     number: '02',
-    name: 'Medspas',
-    path: '/industries/medspas',
+    name: 'Icosa',
+    path: '/icosa',
     description:
-      'End-to-end consultation scheduling, lead nurturing, and appointment management — so your team stays focused on patient outcomes.',
-    status: 'live',
-  },
-  {
-    number: '03',
-    name: 'Mobile Detailing',
-    path: '/industries/mobile-detailing',
-    description:
-      'Lead capture, job booking, route scheduling, and automated follow-up — a complete operations layer built for mobile detailing businesses.',
-    status: 'live',
+      'The internal layer. CRM automation, workflow systems, and operational infrastructure — everything your team depends on to run without friction.',
   },
 ];
 
@@ -38,45 +28,23 @@ const AgencySection = () => {
       <OrbOne />
       <OrbTwo />
       <ContentContainer>
-        <SectionLabel>Systems</SectionLabel>
-        <SectionHeading>Purpose-built for your industry</SectionHeading>
+        <SectionLabel>Platform</SectionLabel>
+        <SectionHeading>Two systems. Total coverage.</SectionHeading>
         <SectionSubheading>
-          Every deployment is engineered from the ground up for the specific tools, workflows, and lead dynamics of your industry. Not configured — built.
+          Every deployment is built on Dodeca and Icosa — autonomous systems that handle what happens outside your business and what runs inside it.
         </SectionSubheading>
 
         <Grid>
-          {INDUSTRIES.map((industry, index) => (
+          {PLATFORMS.map((platform, index) => (
             <CardWrapper
-              key={industry.name}
+              key={platform.name}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.12 }}
               viewport={{ once: true }}
-              isLive={industry.status === 'live'}
+              isLive
             >
-              {industry.status === 'live' ? (
-                <CardLink to={industry.path}>
-                  <BorderGlow
-                    backgroundColor="rgba(255,255,255,0.04)"
-                    borderRadius={20}
-                    colors={['#6C63FF', '#a78bfa', '#4F46E5']}
-                    glowColor="258 60 65"
-                    glowIntensity={1.2}
-                    edgeSensitivity={28}
-                  >
-                    <CardInner>
-                      <CardTop>
-                        <NumberTag>{industry.number}</NumberTag>
-                      </CardTop>
-                      <IndustryName>{industry.name}</IndustryName>
-                      <IndustryDesc>{industry.description}</IndustryDesc>
-                      <LearnMore>
-                        Explore system <ArrowRight size={14} />
-                      </LearnMore>
-                    </CardInner>
-                  </BorderGlow>
-                </CardLink>
-              ) : (
+              <CardLink to={platform.path}>
                 <BorderGlow
                   backgroundColor="rgba(255,255,255,0.04)"
                   borderRadius={20}
@@ -87,14 +55,16 @@ const AgencySection = () => {
                 >
                   <CardInner>
                     <CardTop>
-                      <NumberTag>{industry.number}</NumberTag>
-                      <Badge>Coming Soon</Badge>
+                      <NumberTag>{platform.number}</NumberTag>
                     </CardTop>
-                    <IndustryName>{industry.name}</IndustryName>
-                    <IndustryDesc>{industry.description}</IndustryDesc>
+                    <IndustryName>{platform.name}</IndustryName>
+                    <IndustryDesc>{platform.description}</IndustryDesc>
+                    <LearnMore>
+                      Explore platform <ArrowRight size={14} />
+                    </LearnMore>
                   </CardInner>
                 </BorderGlow>
-              )}
+              </CardLink>
             </CardWrapper>
           ))}
         </Grid>
@@ -180,13 +150,14 @@ const SectionSubheading = styled.p`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
+  max-width: 860px;
+  margin: 0 auto;
 
-  @media (max-width: 900px) {
+  @media (max-width: 700px) {
     grid-template-columns: 1fr;
     max-width: 480px;
-    margin: 0 auto;
   }
 `;
 
@@ -226,17 +197,6 @@ const NumberTag = styled.div`
   font-variant-numeric: tabular-nums;
 `;
 
-const Badge = styled.span`
-  font-size: 0.7rem;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(250, 250, 250, 0.45);
-  padding: 4px 10px;
-  border-radius: 20px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-`;
 
 const IndustryName = styled.h3`
   font-size: 1.2rem;

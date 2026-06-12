@@ -44,7 +44,30 @@ const Hero = () => {
           Built for{' '}
           <TextType
             as="span"
-            text={["real estate.", "medspas.", "mobile detailing."]}
+            text={[
+              "real estate.",
+              "medspas.",
+              "law firms.",
+              "restaurants.",
+              "dental practices.",
+              "gyms.",
+              "HVAC.",
+              "roofing.",
+              "landscaping.",
+              "mobile detailing.",
+              "auto repair.",
+              "insurance.",
+              "mortgage.",
+              "veterinary.",
+              "chiropractic.",
+              "physical therapy.",
+              "hotels.",
+              "salons.",
+              "e-commerce.",
+              "construction.",
+              "accounting.",
+              "financial advisors.",
+            ]}
             typingSpeed={65}
             deletingSpeed={35}
             pauseDuration={2200}
