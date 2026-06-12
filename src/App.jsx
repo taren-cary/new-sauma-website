@@ -19,6 +19,7 @@ import RealEstateIntakeForm from './pages/RealEstateIntakeForm';
 import RealEstate from './pages/industries/RealEstate';
 import Medspas from './pages/industries/Medspas';
 import MobileDetailing from './pages/industries/MobileDetailing';
+import Dodeca from './pages/Dodeca';
 import { useEffect } from 'react';
 
 // 404 Component
@@ -140,6 +141,7 @@ function App() {
           <Route path="/aphrodite" element={<Aphrodite />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/real-estate-intake" element={<RealEstateIntakeForm />} />
+          <Route path="/dodeca" element={<Dodeca />} />
           <Route path="/industries/real-estate" element={<RealEstate />} />
           <Route path="/industries/medspas" element={<Medspas />} />
           <Route path="/industries/mobile-detailing" element={<MobileDetailing />} />

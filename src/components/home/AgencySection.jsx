@@ -10,6 +10,7 @@ const PLATFORMS = [
     number: '01',
     name: 'Dodeca',
     path: '/dodeca',
+    symbol: '/assets/DodecahedronWhite.png',
     description:
       'The client-facing layer. Voice agents, lead response, booking systems, and customer follow-up — built to handle every interaction your business depends on, continuously and without supervision.',
   },
@@ -17,6 +18,7 @@ const PLATFORMS = [
     number: '02',
     name: 'Icosa',
     path: '/icosa',
+    symbol: '/assets/IcosahedronWhite.png',
     description:
       'The internal layer. CRM automation, workflow systems, and operational infrastructure — everything your team depends on to run without friction.',
   },
@@ -54,6 +56,7 @@ const AgencySection = () => {
                   edgeSensitivity={28}
                 >
                   <CardInner>
+                    <PlatformSymbol src={platform.symbol} alt={platform.name} />
                     <CardTop>
                       <NumberTag>{platform.number}</NumberTag>
                     </CardTop>
@@ -211,6 +214,14 @@ const IndustryDesc = styled.p`
   color: rgba(250, 250, 250, 0.5);
   line-height: 1.7;
   margin-bottom: 1.5rem;
+`;
+
+const PlatformSymbol = styled.img`
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
 `;
 
 const LearnMore = styled.div`
