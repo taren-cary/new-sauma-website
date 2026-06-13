@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 
 const TESTIMONIALS = [
   {
-    text: "Mercury has completely transformed our dispatch process. We're booking 30% more jobs while we sleep with the same ad spend!",
+    text: "Sauma has completely transformed our dispatch process. We're booking 30% more jobs while we sleep with the same ad spend!",
     author: "Pearson Smith",
     title: "Marketing Director, ForgeCommand.",
     image: "/assets/testimonials/person1.svg"
   },
   {
-    text: "With Mercury, our clients can't even tell they're talking to an AI. Our jobs are booked 24/7 and my team is freed up to focus on high-value tasks and providing great service.",
+    text: "With Sauma, our clients can't even tell they're talking to an AI. Our jobs are booked 24/7 and my team is freed up to focus on high-value tasks and providing great service.",
     author: "Micah Mentis",
     title: "Director of Operations, Nu Pathway Health & Wellness",
     image: "/assets/testimonials/person2.svg"
