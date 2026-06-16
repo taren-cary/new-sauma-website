@@ -12,7 +12,6 @@ import TestimonialSlider from '../components/common/TestimonialSlider';
 import Button from '../components/common/Button';
 import LogoScroller from '../components/common/LogoScroller';
 import VideoSection from '../components/mercury/VideoSection'; // Add this import
-import { supabase } from '../services/supabase';
 
 // Styled Components
 const HeroContainer = styled.section`
@@ -127,155 +126,14 @@ const BenefitItem = styled.li`
   }
 `;
 
-const FormGlassCard = styled.div`
-  ${props => props.theme.glassmorphism};
-  padding: 2rem;
+const CalEmbedWrapper = styled.div`
   width: 100%;
-  max-width: 450px;
-  border-radius: 15px;
-  min-height: 400px;
-  display: flex;
-  flex-direction: column;
-  
+  max-width: 500px;
+  height: 600px;
+
   @media (max-width: 992px) {
     max-width: 100%;
-  }
-`;
-
-const FormTitle = styled.h3`
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex: 1;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-  font-size: 0.9rem;
-`;
-
-const Input = styled.input`
-  padding: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 1rem;
-  
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  &:focus {
-    outline: none;
-    border-color: ${props => props.theme.colors.primary};
-  }
-`;
-
-const SubmitButton = styled(Button)`
-  width: 100%;
-  margin-top: auto;
-`;
-
-const SuccessMessage = styled.div`
-  background: rgba(34, 197, 94, 0.2);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: #22c55e;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
-
-const PlainSuccessMessage = styled.div`
-  color: #22c55e;
-  padding: 1.5rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  
-  h4 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-  
-  p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 1rem;
-`;
-
-const CalendarButton = styled.button`
-  background: ${props => props.theme.colors.primary};
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-const CalendarTitle = styled.h4`
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
-`;
-
-const CalendarDescription = styled.p`
-  text-align: center;
-  margin-bottom: 2rem;
-  opacity: 0.8;
-  line-height: 1.6;
-`;
-
-const CalendarContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const CalWrapper = styled.div`
-  flex: 1;
-  min-height: 400px;
-  
-  /* Ensure Cal.com embed fits properly */
-  & > div {
-    height: 100% !important;
+    height: 550px;
   }
 `;
 
@@ -492,149 +350,18 @@ const LogoHeading = styled.h2`
 
 // Hero Section with split design
 const HeroSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    companyName: '',
-    websiteUrl: ''
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [submittedData, setSubmittedData] = useState(null);
-  const [demoScheduled, setDemoScheduled] = useState(false); // Add this state
-
-  // Initialize Cal.com popup functionality
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({"namespace":"free-mercury-demo-30-min"});
-      cal("ui", {
-        "theme":"light",
-        "cssVarsPerTheme":{
-          "light":{
-            "cal-brand":"#f88734"
-          }
-        },
-        "hideEventTypeDetails":false,
-        "layout":"month_view"
-      });
+      const cal = await getCalApi({"namespace":"free-30-minute-discovery-call"});
+      cal("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
     })();
   }, []);
-
-  // Listen for status changes in Supabase using polling
-  useEffect(() => {
-    if (submittedData?.email && !demoScheduled) {
-      console.log('Starting polling for email:', submittedData.email);
-      
-      const pollForStatus = async () => {
-        try {
-          const { data, error } = await supabase
-            .from('demo_leads')
-            .select('status')
-            .eq('email', submittedData.email)
-            .single();
-            
-          console.log('Polling result:', data);
-          
-          if (data && data.status === 'demo_scheduled') {
-            console.log('Demo scheduled found via polling!');
-            setDemoScheduled(true);
-          }
-        } catch (err) {
-          console.log('Polling error:', err);
-        }
-      };
-
-      // Poll every 3 seconds
-      const interval = setInterval(pollForStatus, 3000);
-      
-      // Also poll immediately
-      pollForStatus();
-
-      return () => {
-        console.log('Cleaning up polling');
-        clearInterval(interval);
-      };
-    }
-  }, [submittedData?.email, demoScheduled]);
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const formatPhoneNumber = (phone) => {
-    // Remove all non-digit characters
-    const cleaned = phone.replace(/\D/g, '');
-    
-    // If it starts with 1 and is 11 digits, it's already in US format
-    if (cleaned.length === 11 && cleaned.startsWith('1')) {
-      return `+${cleaned}`;
-    }
-    
-    // If it's 10 digits, assume it's a US number and add +1
-    if (cleaned.length === 10) {
-      return `+1${cleaned}`;
-    }
-    
-    // If it already starts with +, return as is
-    if (phone.startsWith('+')) {
-      return phone;
-    }
-    
-    // For other cases, try to add +1 if it looks like a US number
-    if (cleaned.length >= 10) {
-      return `+1${cleaned}`;
-    }
-    
-    // Fallback: return the original phone number
-    return phone;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const { error } = await supabase
-        .from('demo_leads')
-        .insert([{
-          name: formData.name,
-          email: formData.email,
-          lead_phone: formData.phone,  // Changed from phone to lead_phone
-          company_name: formData.companyName,
-          website_url: formData.websiteUrl,
-          status: 'pending_booking',
-          created_at: new Date().toISOString()
-        }]);
-
-      if (error) throw error;
-      
-      // Store the submitted data for Cal.com prefilling
-      setSubmittedData({
-        name: formData.name,
-        email: formData.email
-      });
-      
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', companyName: '', websiteUrl: '' });
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      setError('There was an error submitting your request. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <HeroContainer>
       <OrbHeroOne />
       <OrbHeroTwo />
-      
+
       <HeroContent>
         <LeftColumn>
           <HeroHeading
@@ -642,17 +369,17 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            See your AI system in action. Built for your business before the call.
+            Book a free 30-minute discovery call.
           </HeroHeading>
-          
+
           <HeroSubheading
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Submit your details and we'll build a working demonstration of your AI system before the call — so you see exactly what you're deploying, not a generic walkthrough.
+            Tell us about your business on the call. We'll figure out if Sauma is a fit and show you what we'd build for you.
           </HeroSubheading>
-          
+
           <BenefitsList
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -660,18 +387,18 @@ const HeroSection = () => {
           >
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>We review your business and build a working demo before the call</span>
+              <span>30 minutes, no commitment</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>Choose a time that works for your schedule</span>
+              <span>We'll walk you through what AI could look like for your specific business</span>
             </BenefitItem>
             <BenefitItem>
               <CheckCircle size={20} />
-              <span>See your actual system running — not a slide deck</span>
+              <span>If it's a fit, we'll show you a working demo on a follow-up call</span>
             </BenefitItem>
           </BenefitsList>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -682,119 +409,16 @@ const HeroSection = () => {
             </ButtonContainer>
           </motion.div>
         </LeftColumn>
-        
+
         <RightColumn>
-          <FormGlassCard>
-            {!isSubmitted ? (
-              <>
-                <FormTitle>Request your demo</FormTitle>
-                <Form onSubmit={handleSubmit}>
-                  <FormGroup>
-                    <Label htmlFor="name">Full Name *</Label>
-                    <Input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </FormGroup>
-                  
-                  <FormGroup>
-                    <Label htmlFor="email">Email Address *</Label>
-                    <Input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Enter your email address"
-                      required
-                    />
-                  </FormGroup>
-                  
-                  <FormGroup>
-                    <Label htmlFor="phone">Phone Number *</Label>
-                    <Input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="(555) 123-4567"
-                      required
-                    />
-                  </FormGroup>
-                  
-                  <FormGroup>
-                    <Label htmlFor="companyName">Company Name *</Label>
-                    <Input
-                      type="text"
-                      id="companyName"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleInputChange}
-                      placeholder="Enter your company name"
-                      required
-                    />
-                  </FormGroup>
-                  
-                  <FormGroup>
-                    <Label htmlFor="websiteUrl">Website URL *</Label>
-                    <Input
-                      type="url"
-                      id="websiteUrl"
-                      name="websiteUrl"
-                      value={formData.websiteUrl}
-                      onChange={handleInputChange}
-                      placeholder="https://yourcompany.com"
-                      required
-                    />
-                  </FormGroup>
-                  
-                  <SubmitButton type="submit" disabled={isLoading}>
-                    {isLoading ? 'Submitting...' : 'Request demo'}
-                  </SubmitButton>
-                  
-                  {error && <ErrorMessage>{error}</ErrorMessage>}
-                </Form>
-              </>
-            ) : demoScheduled ? (
-              <>
-                <PlainSuccessMessage>
-                  <h4>Demo confirmed.</h4>
-                  <p>Your demo is scheduled. We'll have a working version of your system built before the call.</p>
-                </PlainSuccessMessage>
-
-                <CalendarTitle>What's next</CalendarTitle>
-                <CalendarDescription>
-                  We'll review your business details and build a working demonstration of your system before the call. A confirmation has been sent to your email.
-                </CalendarDescription>
-              </>
-            ) : (
-              <>
-                <PlainSuccessMessage>
-                  <h4>Request received.</h4>
-                  <p>We have your details. Select a time below and we'll have your system demo ready before the call.</p>
-                </PlainSuccessMessage>
-
-                <CalendarTitle>Select a time</CalendarTitle>
-                <CalendarDescription>
-                  Choose a time that works for you. We'll build your system demo before the call.
-                </CalendarDescription>
-
-                <CalendarButton
-                  data-cal-namespace="free-mercury-demo-30-min"
-                  data-cal-link="sauma-ai/free-mercury-demo-30-min"
-                  data-cal-config={`{"layout":"month_view","theme":"light","name":"${submittedData?.name || ''}","email":"${submittedData?.email || ''}"}`}
-                >
-                  Book your time
-                </CalendarButton>
-              </>
-            )}
-          </FormGlassCard>
+          <CalEmbedWrapper>
+            <Cal
+              namespace="free-30-minute-discovery-call"
+              calLink="sauma-ai/free-30-minute-discovery-call"
+              style={{width:"100%",height:"100%",overflow:"scroll"}}
+              config={{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}}
+            />
+          </CalEmbedWrapper>
         </RightColumn>
       </HeroContent>
     </HeroContainer>
@@ -812,11 +436,21 @@ const DemoInfoSection = () => {
         <InfoCardsGrid>
           <InfoGlassCard>
             <IconWrapper>
-              <Globe size={28} />
+              <Calendar size={28} />
             </IconWrapper>
-            <CardTitle>01 — Submit your details</CardTitle>
+            <CardTitle>01 — Book a time</CardTitle>
             <CardDescription>
-              Share your website URL and business details. We use this to build a working demo of your system before you ever get on a call.
+              Pick a slot that works for you. No forms, no commitments.
+            </CardDescription>
+          </InfoGlassCard>
+
+          <InfoGlassCard>
+            <IconWrapper>
+              <Users size={28} />
+            </IconWrapper>
+            <CardTitle>02 — Tell us about your business</CardTitle>
+            <CardDescription>
+              On the call, we learn about your workflows, your team, and where AI could make the biggest impact.
             </CardDescription>
           </InfoGlassCard>
 
@@ -824,19 +458,9 @@ const DemoInfoSection = () => {
             <IconWrapper>
               <Zap size={28} />
             </IconWrapper>
-            <CardTitle>02 — We build your demo</CardTitle>
+            <CardTitle>03 — See what we'd build</CardTitle>
             <CardDescription>
-              Our team configures a real, working version of your AI system — calibrated to your industry, your business, and your workflows.
-            </CardDescription>
-          </InfoGlassCard>
-
-          <InfoGlassCard>
-            <IconWrapper>
-              <Calendar size={28} />
-            </IconWrapper>
-            <CardTitle>03 — See it in action</CardTitle>
-            <CardDescription>
-              In a 30-minute call, we walk you through exactly what we built — live, not a slide deck — and show you how it would run for your business.
+              If it's a fit, we'll configure a working demo of your system and walk you through it on a follow-up call.
             </CardDescription>
           </InfoGlassCard>
         </InfoCardsGrid>
@@ -865,23 +489,23 @@ const FAQSection = () => {
   const demoFaqs = [
     {
       id: 1,
-      question: "How long does it take to build my demo?",
-      answer: "We build your demo within 24 hours of receiving your details. By the time you get on the call, you're seeing a configured version of the system — not a generic walkthrough."
+      question: "How long is the call?",
+      answer: "30 minutes. We'll use the time to understand your business and figure out whether Sauma is a good fit."
     },
     {
       id: 2,
-      question: "What do you need from me before the call?",
-      answer: "Your business name, website URL, and contact details are enough to get started. We'll review your business and configure the system before the call."
+      question: "Do I need to prepare anything?",
+      answer: "No. Just show up and we'll guide the conversation. It helps to have a rough sense of where your team spends the most time, but it's not required."
     },
     {
       id: 3,
-      question: "Can I reschedule if something comes up?",
-      answer: "Yes. You can reschedule using the calendar link in your confirmation email up to 2 hours before the scheduled time."
+      question: "What happens after the call?",
+      answer: "If there's a fit, we'll configure a working demo of your system and schedule a follow-up to walk you through it. Most deployments go live within a week of signing."
     },
     {
       id: 4,
-      question: "What happens after the demo?",
-      answer: "If the system is a fit, we'll walk you through scope, timeline, and pricing. Most deployments go live within a week of signing."
+      question: "Is there any cost or commitment?",
+      answer: "None. The discovery call is free and there's no obligation to move forward."
     }
   ];
 
